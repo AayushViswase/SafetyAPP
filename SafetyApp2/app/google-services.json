@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "898442499276",
+    "project_id": "safetyapp-b7bc9",
+    "storage_bucket": "safetyapp-b7bc9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:898442499276:android:a0ea5295164af5dc5c1e69",
+        "android_client_info": {
+          "package_name": "com.example.safetyapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "898442499276-rf2ta5jror5ghlrhmhq0hjg0h4vrm7g8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTf54dovj9i5C0Okim4NJP_9rDedKfNrE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "898442499276-rf2ta5jror5ghlrhmhq0hjg0h4vrm7g8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
