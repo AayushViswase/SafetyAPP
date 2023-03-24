@@ -133,6 +133,20 @@ public class UploadProfilePicActivity extends AppCompatActivity {
         startActivityForResult(intent,PICK_IMAGE_REQUEST);
 
     }
+    //alternativ for deprecated method///*********************************************************************************
+//    private ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
+//            new ActivityResultCallback<Uri>() {
+//                @Override
+//                public void onActivityResult(Uri result) {
+//                    if (result != null) {
+//                        // Do something with the selected file
+//                    }
+//                }
+//            });
+//
+//    private void openFileChooser() {
+//        mGetContent.launch("image/*");
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -164,14 +178,15 @@ public class UploadProfilePicActivity extends AppCompatActivity {
             finish();
         }
         else if (id==R.id.menu_update_email) {
-            Intent intent = new Intent(UploadProfilePicActivity.this, UpdateProfileActivity.class);
+            Intent intent = new Intent(UploadProfilePicActivity.this, UpdateEmailActivity.class);
             startActivity(intent);
-        }else if (id==R.id.menu_change_password) {
-            Intent intent = new Intent(UploadProfilePicActivity.this, ChangePasswordActivity.class);
-            startActivity(intent);
-        }else if (id==R.id.menu_delete_profile) {
-            Intent intent = new Intent(UploadProfilePicActivity.this, DeleteProfileActivity.class);
-            startActivity(intent);
+            finish();
+//        }else if (id==R.id.menu_change_password) {
+//            Intent intent = new Intent(UploadProfilePicActivity.this, ChangePasswordActivity.class);
+//            startActivity(intent);
+//        }else if (id==R.id.menu_delete_profile) {
+//            Intent intent = new Intent(UploadProfilePicActivity.this, DeleteProfileActivity.class);
+//            startActivity(intent);
         }else if (id==R.id.menu_logout) {
             authProfile.signOut();
             Toast.makeText(UploadProfilePicActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
