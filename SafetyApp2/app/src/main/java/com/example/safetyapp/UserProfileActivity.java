@@ -168,9 +168,9 @@ public class UserProfileActivity extends AppCompatActivity {
             Intent intent = new Intent(UserProfileActivity.this, UpdateEmailActivity.class);
             startActivity(intent);
 
-//        }else if (id==R.id.menu_change_password) {
-//            Intent intent = new Intent(UserProfileActivity.this, ChangePasswordActivity.class);
-//            startActivity(intent);
+        }else if (id==R.id.menu_change_password) {
+            Intent intent = new Intent(UserProfileActivity.this, ChangePasswordActivity.class);
+            startActivity(intent);
 //        }else if (id==R.id.menu_delete_profile) {
 //            Intent intent = new Intent(UserProfileActivity.this, DeleteProfileActivity.class);
 //            startActivity(intent);

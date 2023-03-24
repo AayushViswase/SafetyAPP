@@ -269,9 +269,10 @@ private ProgressBar progressBar;
             Intent intent = new Intent(UpdateProfileActivity.this, UpdateEmailActivity.class);
             startActivity(intent);
             finish();
-//        }else if (id==R.id.menu_change_password) {
-//            Intent intent = new Intent(UpdateProfileActivity.this, ChangePasswordActivity.class);
-//            startActivity(intent);
+        }else if (id==R.id.menu_change_password) {
+            Intent intent = new Intent(UpdateProfileActivity.this, ChangePasswordActivity.class);
+            startActivity(intent);
+            finish();
 //        }else if (id==R.id.menu_delete_profile) {
 //            Intent intent = new Intent(UpdateProfileActivity.this, DeleteProfileActivity.class);
 //            startActivity(intent);

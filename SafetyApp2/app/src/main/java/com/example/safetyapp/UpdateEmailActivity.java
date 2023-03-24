@@ -182,9 +182,10 @@ public class UpdateEmailActivity extends AppCompatActivity {
             Intent intent = new Intent(UpdateEmailActivity.this, UpdateEmailActivity.class);
             startActivity(intent);
             finish();
-//        }else if (id==R.id.menu_change_password) {
-//            Intent intent = new Intent(UpdateEmailActivity.this, ChangePasswordActivity.class);
-//            startActivity(intent);
+        }else if (id==R.id.menu_change_password) {
+            Intent intent = new Intent(UpdateEmailActivity.this, ChangePasswordActivity.class);
+            startActivity(intent);
+            finish();
 //        }else if (id==R.id.menu_delete_profile) {
 //            Intent intent = new Intent(UpdateEmailActivity.this, DeleteProfileActivity.class);
 //            startActivity(intent);
