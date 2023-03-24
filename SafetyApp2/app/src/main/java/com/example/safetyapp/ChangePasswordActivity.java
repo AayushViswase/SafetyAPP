@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -192,9 +191,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
             Intent intent = new Intent(ChangePasswordActivity.this, ChangePasswordActivity.class);
             startActivity(intent);
             finish();
-//        }else if (id==R.id.menu_delete_profile) {
-//            Intent intent = new Intent(ChangePasswordActivity.this, DeleteProfileActivity.class);
-//            startActivity(intent);
+        }else if (id==R.id.menu_delete_profile) {
+            Intent intent = new Intent(ChangePasswordActivity.this, DeleteProfileActivity.class);
+            startActivity(intent);
         }else if (id==R.id.menu_logout) {
             authProfile.signOut();
             Toast.makeText(ChangePasswordActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
