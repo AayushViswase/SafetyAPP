@@ -2,6 +2,7 @@ package com.example.safetyapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -47,6 +48,7 @@ private ProgressBar progressBar;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
         getSupportActionBar().setTitle("Update Profile Details");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         progressBar=findViewById(R.id.progressBar);
         editTextUpdateName=findViewById(R.id.editText_update_profile_name);
@@ -256,7 +258,9 @@ private ProgressBar progressBar;
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id=item.getItemId();
-        if(id==R.id.menu_refresh){
+        if(id==android.R.id.home){
+            NavUtils.navigateUpFromSameTask(UpdateProfileActivity.this);
+        }else if(id==R.id.menu_refresh){
             startActivity(getIntent());
             finish();
             overridePendingTransition(0,0);

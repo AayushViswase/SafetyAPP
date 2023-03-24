@@ -1,10 +1,5 @@
 package com.example.safetyapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +10,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,11 +36,15 @@ public class UserProfileActivity extends AppCompatActivity {
     private String fullName,email,doB,gender,mobile;
     private ImageView imageView;
     private FirebaseAuth authProfile;
+    private SwipeRefreshLayout swipeContainer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Home");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        swipeToReferesh();
 
         textViewWelcome = findViewById(R.id.textView_show_welcome);
         textViewFullName = findViewById(R.id.textView_show_full_name);
@@ -50,13 +55,10 @@ public class UserProfileActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_bar);
         //Set onclicklistner on Inmage to open Upload Profile pic
         imageView=findViewById(R.id.imageView_profile_dp);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(UserProfileActivity.this,UploadProfilePicActivity.class);
-                startActivity(intent);
+        imageView.setOnClickListener(v -> {
+            Intent intent=new Intent(UserProfileActivity.this,UploadProfilePicActivity.class);
+            startActivity(intent);
 
-            }
         });
 
         authProfile = FirebaseAuth.getInstance();
@@ -73,6 +75,17 @@ public class UserProfileActivity extends AppCompatActivity {
         }
     }
 
+    private void swipeToReferesh() {
+        swipeContainer=findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(() -> {
+            startActivity(getIntent());
+            finish();
+            overridePendingTransition(0,0);
+            swipeContainer.setRefreshing(false);
+        });
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+    }
+
     private void checkidEmailVerified(FirebaseUser firebaseUser) {
         if (!firebaseUser.isEmailVerified()){
             showAlertDialog();
@@ -86,14 +99,11 @@ public class UserProfileActivity extends AppCompatActivity {
         builder.setMessage("Please Verify you Email now.You can not Login without email verification.");
 
         //Open email Apps if User clicks continue button
-        builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent=new Intent(Intent.ACTION_MAIN);
-                intent.addCategory(Intent.CATEGORY_APP_EMAIL);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
+        builder.setPositiveButton("Continue", (dialog, which) -> {
+            Intent intent=new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_APP_EMAIL);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         });
         AlertDialog alertDialog= builder.create();
         alertDialog.show();
@@ -116,7 +126,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     gender=readUserDetails.gender;
                     mobile=readUserDetails.mobile;
 
-                    textViewWelcome.setText("Welcome, "+fullName+"!");
+                    textViewWelcome.setText(getString(R.string.welcome_head_profile,fullName));
                     textViewFullName.setText(fullName);
                     textViewEmail.setText(email);
                     textViewDoB.setText(doB);
@@ -155,8 +165,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id=item.getItemId();
-        if(id==R.id.menu_refresh){
+        int id = item.getItemId();
+    if(id==android.R.id.home){
+        NavUtils.navigateUpFromSameTask(UserProfileActivity.this);
+    }else if(id==R.id.menu_refresh){
             startActivity(getIntent());
             finish();
             overridePendingTransition(0,0);

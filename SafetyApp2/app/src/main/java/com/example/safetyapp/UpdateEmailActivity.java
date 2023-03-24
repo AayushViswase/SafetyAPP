@@ -2,6 +2,7 @@ package com.example.safetyapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
@@ -38,6 +39,7 @@ public class UpdateEmailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_email);
         getSupportActionBar().setTitle("Update Email");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         progressBar =findViewById(R.id.progressBar);
         editTextPwd=findViewById(R.id.editText_update_email_verify_password);
@@ -169,7 +171,9 @@ public class UpdateEmailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id=item.getItemId();
-        if(id==R.id.menu_refresh){
+        if(id==android.R.id.home){
+            NavUtils.navigateUpFromSameTask(UpdateEmailActivity.this);
+        }else if(id==R.id.menu_refresh){
             startActivity(getIntent());
             finish();
             overridePendingTransition(0,0);

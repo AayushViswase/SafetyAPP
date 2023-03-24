@@ -28,7 +28,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     android:textColor="@color/white"
-                    android:text="Welcome back!"
+                    android:text="@string/welcome_back"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
@@ -37,7 +37,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:text="Please log in to continue"
+                    android:text="@string/please_log_in_to_continue"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Menu" />
 
@@ -67,14 +67,15 @@
                         android:src="@drawable/ic_email"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"/>
+                        android:layout_marginRight="10dp"
+                        android:contentDescription="@string/image" />
 
                     <TextView
                         android:id="@+id/textView_login_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="6dp"
-                        android:text="Email*"
+                        android:text="@string/email"
                         android:layout_toEndOf="@id/imageViewEmail"/>
 
                     <View
@@ -90,14 +91,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/textView_login_email"
-                        android:background="@android:color/transparent"
-                        android:layout_toEndOf="@id/imageViewEmail"
-                        android:hint="Enter email"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
-                        android:textCursorDrawable="@drawable/edittextcursor"
+                        android:layout_toEndOf="@id/imageViewEmail"
+                        android:autofillHints=""
+                        android:background="@android:color/transparent"
+                        android:hint="@string/enter_email"
                         android:inputType="textEmailAddress"
+                        android:minHeight="48dp"
                         android:padding="6dp"
+                        android:textCursorDrawable="@drawable/edittextcursor"
                         android:textSize="16sp" />
                 </RelativeLayout>
 
@@ -116,7 +119,8 @@
                         android:src="@drawable/ic_pwd_bw"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"/>
+                        android:layout_marginRight="10dp"
+                        android:contentDescription="@string/image" />
 
                     <TextView
                         android:id="@+id/textView_login_pwd"
@@ -124,7 +128,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/imageViewPwd"
                         android:padding="6dp"
-                        android:text="Password*" />
+                        android:text="@string/password" />
 
                     <View
                         android:layout_width="250dp"
@@ -139,15 +143,17 @@
                         android:layout_width="260dp"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/textView_login_pwd"
-                        android:layout_toEndOf="@id/imageViewPwd"
-                        android:background="@android:color/transparent"
-                        android:hint="Enter password"
-                        android:textCursorDrawable="@drawable/edittextcursor"
-                        android:inputType="textPassword"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
+                        android:layout_toEndOf="@id/imageViewPwd"
+                        android:background="@android:color/transparent"
+                        android:hint="@string/enter_password"
+                        android:inputType="textPassword"
+                        android:minHeight="48dp"
                         android:padding="6dp"
-                        android:textSize="16sp" />
+                        android:textCursorDrawable="@drawable/edittextcursor"
+                        android:textSize="16sp"
+                        android:autofillHints="" />
 
                     <ImageView
                         android:id="@+id/imageView_show_hide_pwd"
@@ -155,8 +161,9 @@
                         android:layout_height="33dp"
                         android:layout_alignParentEnd="true"
                         android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_below="@id/textView_login_pwd" />
+                        android:layout_marginEnd="10dp"
+                        android:layout_below="@id/textView_login_pwd"
+                        android:contentDescription="@string/image" />
 
                 </RelativeLayout>
 
@@ -166,9 +173,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/RL_pwd"
                     android:layout_marginTop="30dp"
-                    android:layout_marginLeft="70dp"
+                    android:layout_marginStart="70dp"
                     android:layout_centerHorizontal="true"
-                    android:text="Login" />
+                    android:text="@string/login" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -182,7 +189,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
-                        android:text="Do not have an account?"
+                        android:text="@string/do_not_have_an_account"
                         android:textAlignment="center" />
 
                     <TextView
@@ -208,7 +215,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
-                        android:text="Forgot your password?"
+                        android:text="@string/forgot_your_password"
                         android:textAlignment="center" />
 
                     <TextView

@@ -50,6 +50,7 @@ private EditText editTextRegisterFullName,editTextRegisterEmail,editTextRegister
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         getSupportActionBar().setTitle("Register");
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     Toast.makeText(RegisterActivity.this,"You can Register now",Toast.LENGTH_LONG).show();
     editTextRegisterFullName=findViewById(R.id.editText_register_full_name);
     editTextRegisterEmail=findViewById(R.id.editText_register_email);
