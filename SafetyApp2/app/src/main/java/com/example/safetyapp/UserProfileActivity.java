@@ -42,7 +42,7 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Home");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         swipeToReferesh();
 
@@ -53,7 +53,7 @@ public class UserProfileActivity extends AppCompatActivity {
         textViewGender = findViewById(R.id.textView_show_gender);
         textViewMobile = findViewById(R.id.textView_show_mobile);
         progressBar = findViewById(R.id.progress_bar);
-        //Set onclicklistner on Inmage to open Upload Profile pic
+        //Set onclicklistner on Image to open Upload Profile pic
         imageView=findViewById(R.id.imageView_profile_dp);
         imageView.setOnClickListener(v -> {
             Intent intent=new Intent(UserProfileActivity.this,UploadProfilePicActivity.class);
@@ -63,6 +63,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         authProfile = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = authProfile.getCurrentUser();
+        System.out.println(firebaseUser);
 
 
         if (firebaseUser == null) {
@@ -114,7 +115,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
 
         //Extracting User Refrence from database from "Registered User"
-        DatabaseReference refrenceProfile= FirebaseDatabase.getInstance().getReference("Registerd Users");
+        DatabaseReference refrenceProfile= FirebaseDatabase.getInstance().getReference("Registered User");
         refrenceProfile.child(userID).addListenerForSingleValueEvent(new ValueEventListener(){
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot){

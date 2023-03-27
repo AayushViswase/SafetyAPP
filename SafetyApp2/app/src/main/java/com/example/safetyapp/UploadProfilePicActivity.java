@@ -29,6 +29,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.net.URI;
+import java.util.Objects;
 
 public class UploadProfilePicActivity extends AppCompatActivity {
     private ProgressBar progressBar;
@@ -45,7 +46,8 @@ public class UploadProfilePicActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_profile_pic);
         setContentView(R.layout.activity_upload_profile_pic);
-        getSupportActionBar().setTitle("Upload Profile Picture");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Upload Profile Picture");
+        progressBar =findViewById(R.id.progressBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button buttonUploadPicChoose=findViewById(R.id.upload_pic_choose_button);

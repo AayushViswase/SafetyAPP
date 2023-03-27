@@ -28,6 +28,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
 public class LoginActivity extends AppCompatActivity {
 private EditText editTextLoginEmail,editTextLoginPwd;
 private ProgressBar progressBar;
@@ -38,7 +40,7 @@ private static final String TAG="LoginActivity";
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getSupportActionBar().setTitle("Login");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Login");
         editTextLoginEmail=findViewById(R.id.editText_login_email);
         editTextLoginPwd=findViewById(R.id.editText_login_pwd);
         progressBar=findViewById(R.id.progressBar);
@@ -60,7 +62,7 @@ private static final String TAG="LoginActivity";
             @Override
             public void onClick(View v) {
                 Toast.makeText(LoginActivity.this, "You can reset your password now", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(LoginActivity.this,ForgotPasswordActivity.class));
+                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
             }
         });
 
@@ -114,7 +116,7 @@ private static final String TAG="LoginActivity";
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(LoginActivity.this,"You are logged in now",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this,"Verify Email",Toast.LENGTH_SHORT).show();
                     //get instance of current User
                     FirebaseUser firebaseUser=authProfile.getCurrentUser();
                     //Check if email is verified before user can accs their profile

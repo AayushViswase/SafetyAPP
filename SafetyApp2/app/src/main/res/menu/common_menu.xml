@@ -12,7 +12,7 @@
         android:id="@+id/menu_update_email"/>
     <item android:title="Update Password"
         android:id="@+id/menu_change_password"/>
-    <item android:title="Delet Profile"
+    <item android:title="Delete Profile"
         android:id="@+id/menu_delete_profile"/>
     <item android:title="Logout"
         android:id="@+id/menu_logout"/>

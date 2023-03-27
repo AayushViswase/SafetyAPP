@@ -280,25 +280,6 @@
                     android:text="Update Profile"
                     android:textAlignment="center" />
 
-                <TextView
-                    android:id="@+id/textView_profile_upload_pic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/button_update_profile"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="50dp"
-                    android:text="@string/upload_pic_u" />
-
-                <TextView
-                    android:id="@+id/textView_profile_update_email"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/button_update_profile"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="50dp"
-                    android:text="@string/update_email_u" />
-
                 <ProgressBar
                     android:id="@+id/progressBar"
                     style="?android:attr/progressBarStyleLarge"

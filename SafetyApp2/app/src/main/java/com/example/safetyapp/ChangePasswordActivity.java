@@ -23,9 +23,11 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
 public class ChangePasswordActivity extends AppCompatActivity {
     private FirebaseAuth authProfile;
-    private EditText editTextPwdCurr,editTextPwdNew,editTextPwdConfirmNew;
+    private EditText editTextPwdCurr,editTextPwdNew;
     private TextView textViewAuthenticate;
     private Button buttonChangePwd,buttonReAuthenticate;
     private ProgressBar progressBar;
@@ -49,14 +51,14 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         //Disable editText for new Password,confirm Password and make change in pwd button unclickeable
         editTextPwdNew.setEnabled(false);
-        editTextPwdConfirmNew.setEnabled(false);
+        //editTextPwdConfirmNew.setEnabled(false);
         buttonChangePwd.setEnabled(false);
 
         authProfile=FirebaseAuth.getInstance();
         FirebaseUser firebaseUser=authProfile.getCurrentUser();
 
         if(firebaseUser.equals("")){
-            Toast.makeText(ChangePasswordActivity.this, "Something went wrong.User deatils not avalable", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ChangePasswordActivity.this, "Something went wrong.User details not available", Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(ChangePasswordActivity.this,UserProfileActivity.class);
             startActivity(intent);
             finish();
@@ -78,7 +80,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 }else{
                     progressBar.setVisibility(View.VISIBLE);
 
-                    AuthCredential credential= EmailAuthProvider.getCredential(firebaseUser.getEmail(),userPwsCurr);
+                    AuthCredential credential= EmailAuthProvider.getCredential(Objects.requireNonNull(firebaseUser.getEmail()),userPwsCurr);
 
                     firebaseUser.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -87,8 +89,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
                                 progressBar.setVisibility(View.GONE);
 
                                 editTextPwdCurr.setEnabled(false);
-                                editTextPwdNew.setEnabled(false);
-                                editTextPwdConfirmNew.setEnabled(true);
+                                editTextPwdNew.setEnabled(true);
+                                //editTextPwdConfirmNew.setEnabled(true);
 
                                 buttonReAuthenticate.setEnabled(false);
                                 buttonChangePwd.setEnabled(true);
@@ -121,20 +123,20 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     private void changePwd(FirebaseUser firebaseUser) {
         String userPwdNew=editTextPwdNew.getText().toString();
-        String userPwdConfirmNew=editTextPwdConfirmNew.getText().toString();
+        //String userPwdConfirmNew=editTextPwdConfirmNew.getText().toString();
         if(TextUtils.isEmpty(userPwdNew)){
             Toast.makeText(ChangePasswordActivity.this, "New password  is needed", Toast.LENGTH_SHORT).show();
             editTextPwdNew.setError("Please enter your new password");
             editTextPwdNew.requestFocus();
-        } else if(TextUtils.isEmpty(userPwdConfirmNew)){
-            Toast.makeText(ChangePasswordActivity.this, "Please confirm new password", Toast.LENGTH_SHORT).show();
-
-            editTextPwdConfirmNew.setError("Please re-enter your new password");
-            editTextPwdConfirmNew.requestFocus();
-        } else if (!userPwdNew.matches(userPwdConfirmNew)) {
-            Toast.makeText(ChangePasswordActivity.this, "Password did not match", Toast.LENGTH_SHORT).show();
-            editTextPwdNew.setError("Please enter a new password");
-            editTextPwdNew.requestFocus();
+//        } else if(TextUtils.isEmpty(userPwdConfirmNew)){
+//            Toast.makeText(ChangePasswordActivity.this, "Please confirm new password", Toast.LENGTH_SHORT).show();
+//
+//            editTextPwdConfirmNew.setError("Please re-enter your new password");
+//            editTextPwdConfirmNew.requestFocus();
+//        } else if (!userPwdNew.matches(userPwdConfirmNew)) {
+//            Toast.makeText(ChangePasswordActivity.this, "Password did not match", Toast.LENGTH_SHORT).show();
+//            editTextPwdNew.setError("Please enter a new password");
+//            editTextPwdNew.requestFocus();
         }else if (userPwsCurr.matches(userPwdNew)) {
             Toast.makeText(ChangePasswordActivity.this, "Password did not match", Toast.LENGTH_SHORT).show();
             editTextPwdNew.setError("Please enter a new password");

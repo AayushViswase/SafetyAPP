@@ -26,9 +26,10 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
 public class UpdateEmailActivity extends AppCompatActivity {
     private FirebaseAuth authProfile;
-    private FirebaseUser firebaseUser;
     private ProgressBar progressBar;
     private TextView textViewAuthenticated;
     private String userOldEmail,userNewEmail,userPassword;
@@ -38,7 +39,7 @@ public class UpdateEmailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_email);
-        getSupportActionBar().setTitle("Update Email");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Update Email");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         progressBar =findViewById(R.id.progressBar);
@@ -51,15 +52,15 @@ public class UpdateEmailActivity extends AppCompatActivity {
         editTextNewEmail.setEnabled(false);
 
         authProfile=FirebaseAuth.getInstance();
-        firebaseUser=authProfile.getCurrentUser();
+        FirebaseUser firebaseUser = authProfile.getCurrentUser();
 
         //Set old email id on textview
-        userOldEmail =firebaseUser.getEmail();
+        userOldEmail = firebaseUser != null ? firebaseUser.getEmail() : null;
         TextView textViewOldEmail=findViewById(R.id.textView_update_email_old);
         textViewOldEmail.setText(userOldEmail);
 
         if(firebaseUser.equals("")){
-            Toast.makeText(UpdateEmailActivity.this, "Something went wrong USer deatils not available", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UpdateEmailActivity.this, "Something went wrong User details not available", Toast.LENGTH_SHORT).show();
 
         }else{
             reAuthenticate(firebaseUser);
@@ -87,7 +88,7 @@ public class UpdateEmailActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
                                 progressBar.setVisibility(View.GONE);
-                                Toast.makeText(UpdateEmailActivity.this, "Password has been verified"+"You can update now", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UpdateEmailActivity.this, "Password has been verified "+"You can update now", Toast.LENGTH_SHORT).show();
 
                                 //set TextView to show that user is authenticated
                                 textViewAuthenticated.setText("You are authenticated.You can update you email now.");
@@ -96,7 +97,7 @@ public class UpdateEmailActivity extends AppCompatActivity {
                                 editTextNewEmail.setEnabled(true);
                                 editTextPwd.setEnabled(true);
                                 buttonVerifyUser.setEnabled(false);
-                                buttonUpdateEmail.setEnabled(false);
+                                buttonUpdateEmail.setEnabled(true);
                                 //chanege color
                                 buttonUpdateEmail.setBackgroundTintList(ContextCompat.getColorStateList(UpdateEmailActivity.this,R.color.dark_reen));
                                 buttonUpdateEmail.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +126,7 @@ public class UpdateEmailActivity extends AppCompatActivity {
                                 });
                             }else{
                                 try {
-                                    throw task.getException();
+                                    throw Objects.requireNonNull(task.getException());
                                 }catch(Exception e){
                                     Toast.makeText(UpdateEmailActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
@@ -138,25 +139,24 @@ public class UpdateEmailActivity extends AppCompatActivity {
     }
 
     private void updateEmail(FirebaseUser firebaseUser) {
-            firebaseUser.updateEmail(userNewEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isComplete()){
-                        //verifiation mail
-                        firebaseUser.sendEmailVerification();
-                        Toast.makeText(UpdateEmailActivity.this, "Email has been updated.Please verify your new Email", Toast.LENGTH_SHORT).show();
-                        Intent intent=new Intent(UpdateEmailActivity.this,UserProfileActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }else {
-                        try {
-                            throw task.getException();
-                        }catch (Exception e){
-                            Toast.makeText(UpdateEmailActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
+        user.updateEmail(userNewEmail).addOnCompleteListener(task -> {
+                if(task.isComplete()){
+                    //verifiation mail
+                    firebaseUser.sendEmailVerification();
+                    Toast.makeText(UpdateEmailActivity.this, "Email has been updated.Please verify your new Email", Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(UpdateEmailActivity.this,UserProfileActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    try {
+                        throw Objects.requireNonNull(task.getException());
+                    }catch (Exception e){
+                        Toast.makeText(UpdateEmailActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                    progressBar.setVisibility(View.GONE);
                 }
+                progressBar.setVisibility(View.GONE);
             });
     }
 

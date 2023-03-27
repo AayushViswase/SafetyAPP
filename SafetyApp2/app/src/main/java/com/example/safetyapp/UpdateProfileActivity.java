@@ -1,14 +1,9 @@
 package com.example.safetyapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NavUtils;
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +14,10 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,7 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Calendar;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,7 +46,7 @@ private ProgressBar progressBar;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
-        getSupportActionBar().setTitle("Update Profile Details");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Update Profile Details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         progressBar=findViewById(R.id.progressBar);
@@ -60,7 +59,7 @@ private ProgressBar progressBar;
         FirebaseUser firebaseUser=authProfile.getCurrentUser();
 
         //show profile data
-        showProfile(firebaseUser);
+        showProfile(Objects.requireNonNull(firebaseUser));
 
         //Upload Profile pic
         Button buttonUplaodProfilePic=findViewById(R.id.button_update_profile);
@@ -90,7 +89,7 @@ private ProgressBar progressBar;
             @Override
             public void onClick(View v){
 
-                String textSADoB[]=textDoB.split("/");
+                String[] textSADoB =textDoB.split("/");
                 int day=Integer.parseInt(textSADoB[0]);
                 int month=Integer.parseInt(textSADoB[1])-1;
                 int year=Integer.parseInt(textSADoB[2]);
@@ -125,11 +124,11 @@ private ProgressBar progressBar;
         int selectedGenderID=radioGroupUpdateGender.getCheckedRadioButtonId();
         radioButtonUpdateGenderSelected=findViewById(selectedGenderID);
 
-        //Vlaidate mobile no.
-        String mobileRegex="[6-9][0-9]{9}";
-        Matcher mobileMatcher;
+        String mobileRegex="[6-9]\\d{9}";
         Pattern mobilePattern=Pattern.compile(mobileRegex);
+        Matcher mobileMatcher;
         mobileMatcher=mobilePattern.matcher(textMobile);
+
 
 
         if(TextUtils.isEmpty(textFullName)){
@@ -141,19 +140,19 @@ private ProgressBar progressBar;
             editTextUpdateDoB.setError("Date of Birth is required Required");
             editTextUpdateDoB.requestFocus();
         } else if (TextUtils.isEmpty(radioButtonUpdateGenderSelected.getText())){
-            Toast.makeText(UpdateProfileActivity.this, "Please Select your gender", Toast.LENGTH_LONG).show();
+            Toast.makeText(UpdateProfileActivity.this, "Please Select your gender", Toast.LENGTH_SHORT).show();
             radioButtonUpdateGenderSelected.setError("Gender is required Required");
             radioButtonUpdateGenderSelected.requestFocus();
         } else if(TextUtils.isEmpty(textMobile)){
-            Toast.makeText(UpdateProfileActivity.this, "Please enter your Mobile no.", Toast.LENGTH_LONG).show();
+            Toast.makeText(UpdateProfileActivity.this, "Please enter your Mobile no.", Toast.LENGTH_SHORT).show();
             editTextUpdateMobile.setError("Mobile No. is required Required");
             editTextUpdateMobile.requestFocus();
         } else if (textMobile.length()!=10) {
-            Toast.makeText(UpdateProfileActivity.this, "Please Re-enter your mobile no.", Toast.LENGTH_LONG).show();
+            Toast.makeText(UpdateProfileActivity.this, "Please Re-enter your mobile no.", Toast.LENGTH_SHORT).show();
             editTextUpdateMobile.setError("Mobile No, should be 10 digit");
             editTextUpdateMobile.requestFocus();
         } else if(!mobileMatcher.find()) {
-            Toast.makeText(UpdateProfileActivity.this, "Please Re-enter your mobile no.", Toast.LENGTH_LONG).show();
+            Toast.makeText(UpdateProfileActivity.this, "Please Re-enter your mobile no.", Toast.LENGTH_SHORT).show();
             editTextUpdateMobile.setError("Mobile No, is not valid");
             editTextUpdateMobile.requestFocus();
 
@@ -163,11 +162,12 @@ private ProgressBar progressBar;
             textFullName=editTextUpdateName.getText().toString();
             textDoB=editTextUpdateDoB.getText().toString();
             textMobile=editTextUpdateMobile.getText().toString();
+            //Vlaidate mobile no.
 
             //Enter user data into the firebase database
-            ReadWriteUserDetails writeUserDetails=new ReadWriteUserDetails(textDoB,textGender,textMobile);
+            ReadWriteUserDetails writeUserDetails=new ReadWriteUserDetails(textDoB,textFullName,textGender,textMobile);
 
-            DatabaseReference referenceProfile=FirebaseDatabase.getInstance().getReference("Register Users");
+            DatabaseReference referenceProfile=FirebaseDatabase.getInstance().getReference("Registered User");
             
             String userID=firebaseUser.getUid();
             
@@ -181,16 +181,16 @@ private ProgressBar progressBar;
                         UserProfileChangeRequest profileUpdate=new UserProfileChangeRequest.Builder().setDisplayName(textFullName).build();
                         firebaseUser.updateProfile(profileUpdate);
 
-                        Toast.makeText(UpdateProfileActivity.this, "Update seccessfull", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UpdateProfileActivity.this, "Update successful", Toast.LENGTH_SHORT).show();
 
                         //Stop returning to update profileactivity
-                        Intent intent=new Intent(UpdateProfileActivity.this,UpdateProfileActivity.class);
+                        Intent intent=new Intent(UpdateProfileActivity.this,UserProfileActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         finish();
                     }else {
                         try {
-                            throw  task.getException();
+                            throw Objects.requireNonNull(task.getException());
                         }catch (Exception e) {
                             Toast.makeText(UpdateProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -207,7 +207,7 @@ private ProgressBar progressBar;
         String userIDofRegistered=firebaseUser.getUid();
 
         //Extracting user reference from database for registered users
-        DatabaseReference referenceProfile= FirebaseDatabase.getInstance().getReference("Registered Users");
+        DatabaseReference referenceProfile= FirebaseDatabase.getInstance().getReference("Registered User");
         progressBar.setVisibility(View.VISIBLE);
 
         referenceProfile.child(userIDofRegistered).addListenerForSingleValueEvent(new ValueEventListener() {
