@@ -43,6 +43,14 @@
 
             </LinearLayout>
 
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="10dp"
+                android:visibility="gone" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,22 +94,6 @@
                         android:layout_below="@id/textView_login_email"
                         android:background="@android:color/darker_gray"/>
 
-                    <EditText
-                        android:id="@+id/editText_login_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/textView_login_email"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_toEndOf="@id/imageViewEmail"
-                        android:autofillHints=""
-                        android:background="@android:color/transparent"
-                        android:hint="@string/enter_email"
-                        android:inputType="textEmailAddress"
-                        android:minHeight="48dp"
-                        android:padding="6dp"
-                        android:textCursorDrawable="@drawable/edittextcursor"
-                        android:textSize="16sp" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -218,6 +210,21 @@
                         android:text="@string/forgot_your_password"
                         android:textAlignment="center" />
 
+                    <EditText
+                        android:id="@+id/editText_login_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:autofillHints=""
+                        android:background="@android:color/transparent"
+                        android:hint="@string/enter_email"
+                        android:inputType="textEmailAddress"
+                        android:minHeight="48dp"
+                        android:padding="6dp"
+                        android:textCursorDrawable="@drawable/edittextcursor"
+                        android:textSize="16sp" />
+
                     <TextView
                         android:id="@+id/textView_forgot_password_link"
                         android:layout_width="match_parent"
@@ -226,16 +233,6 @@
                         android:textColor="@color/purple_700"
                         android:textAlignment="center" />
                 </LinearLayout>
-
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    style="?android:attr/progressBarStyleLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:elevation="10dp"
-                    android:visibility="gone" />
 
             </RelativeLayout>
 

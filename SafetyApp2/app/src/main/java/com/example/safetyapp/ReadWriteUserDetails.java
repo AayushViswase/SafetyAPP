@@ -7,7 +7,7 @@ public class ReadWriteUserDetails {
     public ReadWriteUserDetails() {
     }
 
-    public ReadWriteUserDetails(String doB,String fullName,  String gender,String mobile) {
+    public ReadWriteUserDetails(String doB,String fullName,String gender,String mobile) {
         this.fullName = fullName;
         this.doB = doB;
         this.gender = gender;
