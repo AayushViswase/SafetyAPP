@@ -37,12 +37,14 @@ public class UserProfileActivity extends AppCompatActivity {
     private ImageView imageView;
     private FirebaseAuth authProfile;
     private SwipeRefreshLayout swipeContainer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Home");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Profile");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         swipeToReferesh();
 

@@ -23,5 +23,7 @@
     <string name="mobile">Mobile</string>
     <string name="registered_user_since">Register User</string>
     <string name="i_agree_with_the_terms_of_service_and_privacy_policy">I agree with the Terms of Service and Privacy Policy</string>
+    <string name="profile">Profile</string>
+    <string name="instructions">Instructions</string>
 
 </resources>

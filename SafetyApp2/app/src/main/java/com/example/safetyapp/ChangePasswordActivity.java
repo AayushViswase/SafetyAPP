@@ -38,7 +38,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
-        getSupportActionBar().setTitle("Change Password");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Change Password");
 
         editTextPwdNew=findViewById(R.id.editText_change_pwd_new);
         editTextPwdCurr=findViewById(R.id.editText_change_pwd_current);
