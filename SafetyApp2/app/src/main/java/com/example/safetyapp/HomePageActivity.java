@@ -53,7 +53,10 @@ public class HomePageActivity extends AppCompatActivity {
     private void showAlertDialog() {
         AlertDialog.Builder builder=new AlertDialog.Builder(HomePageActivity.this);
         builder.setTitle("App Instructions");
-        builder.setMessage("WRITE INSTRUCTIONS *");
+        //msg updated BY ANUPAM
+        builder.setMessage("To send message please shake your handset thrice.." +
+                "To start recording press Volume Down Button ONCE");
+
 
 
 

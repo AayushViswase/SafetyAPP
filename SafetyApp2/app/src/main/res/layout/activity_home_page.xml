@@ -11,15 +11,15 @@
     android:layout_height="match_parent"
     android:gravity="center">
 
-    <Button
-        android:id="@+id/buton_instruction"
-        android:text="@string/instructions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:textSize="18sp"/>
+        <Button
+            android:id="@+id/buton_instruction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/instructions"
+            android:textSize="18sp" />
 
-    <Button
+        <Button
         android:id="@+id/button_profile"
         android:text="@string/profile"
         android:layout_width="wrap_content"
