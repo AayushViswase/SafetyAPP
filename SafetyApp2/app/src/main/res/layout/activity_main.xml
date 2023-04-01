@@ -17,11 +17,12 @@
         <TextView
             android:id="@+id/textView_main_head"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Welcome\nto\nAndroid Firebase App"
-            android:textAlignment="center"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
             android:shadowColor="@color/common_google_signin_btn_text_light_default"
+            android:text="Welcome"
+            android:textSize="40dp"
+            android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Menu" />
 
         <Button

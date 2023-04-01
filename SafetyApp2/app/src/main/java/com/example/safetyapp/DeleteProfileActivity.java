@@ -32,6 +32,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.Objects;
+
 public class DeleteProfileActivity extends AppCompatActivity {
     private FirebaseAuth authProfile;
     private FirebaseUser firebaseUser;
@@ -46,7 +48,7 @@ public class DeleteProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_profile);
-        getSupportActionBar().setTitle("Delete Your Profile");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Delete Your Profile");
 
         progressBar = findViewById(R.id.progressBar);
         editTextUserPwd = findViewById(R.id.editText_delete_user_pwd);

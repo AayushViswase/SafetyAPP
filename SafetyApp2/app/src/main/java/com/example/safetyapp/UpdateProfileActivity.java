@@ -162,7 +162,7 @@ private ProgressBar progressBar;
             textFullName=editTextUpdateName.getText().toString();
             textDoB=editTextUpdateDoB.getText().toString();
             textMobile=editTextUpdateMobile.getText().toString();
-            //Vlaidate mobile no.
+            //Validate mobile no.
 
             //Enter user data into the firebase database
             ReadWriteUserDetails writeUserDetails=new ReadWriteUserDetails(textDoB,textFullName,textGender,textMobile);
@@ -177,13 +177,13 @@ private ProgressBar progressBar;
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){
-                        //setteting new display name
+                        //setting new display name
                         UserProfileChangeRequest profileUpdate=new UserProfileChangeRequest.Builder().setDisplayName(textFullName).build();
                         firebaseUser.updateProfile(profileUpdate);
 
                         Toast.makeText(UpdateProfileActivity.this, "Update successful", Toast.LENGTH_SHORT).show();
 
-                        //Stop returning to update profileactivity
+                        //Stop returning to update profile activity
                         Intent intent=new Intent(UpdateProfileActivity.this,UserProfileActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
@@ -285,13 +285,13 @@ private ProgressBar progressBar;
             authProfile.signOut();
             Toast.makeText(UpdateProfileActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(UpdateProfileActivity.this,MainActivity.class);
-            //Clear stack tpo prevent user comming back to userProfile Activityon back button
+            //Clear stack tpo prevent user coming back to userProfile Activation back button
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         }else {
 
-            Toast.makeText(UpdateProfileActivity.this, "Somenthing went Wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UpdateProfileActivity.this, "Something went Wrong", Toast.LENGTH_SHORT).show();
 
         }
         return super.onOptionsItemSelected(item);

@@ -87,7 +87,7 @@ private EditText editTextRegisterFullName,editTextRegisterEmail,editTextRegister
 
         String textGender;
 
-        //Vlaidate mobile no.
+        //Validate mobile no.
         String mobileRegex="[6-9]\\d{9}";
         Matcher mobileMatcher;
         Pattern mobilePattern=Pattern.compile(mobileRegex);
@@ -153,31 +153,31 @@ private EditText editTextRegisterFullName,editTextRegisterEmail,editTextRegister
         auth.createUserWithEmailAndPassword(textEmail,textPwd).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 FirebaseUser firebaseUser=auth.getCurrentUser();
-                //Update DIsplay Name of USer
+                //Update DDisplay Name of USer
                 UserProfileChangeRequest userProfileChangeRequest=new UserProfileChangeRequest.Builder().setDisplayName(textFullName).build();
                 assert firebaseUser != null;
                 firebaseUser.updateProfile(userProfileChangeRequest);
                 //Enter USer data into the firebase database.
                 ReadWriteUserDetails writeUserDetails=new ReadWriteUserDetails(textDoB,textFullName,textGender,textMobile);
 
-                //EXTRACTING  USER FROM REFRENCE FROM DATABASE FOR "register users"
+                //EXTRACTING  USER FROM REFERENCE FROM DATABASE FOR "register users"
                 DatabaseReference referenceProfile= FirebaseDatabase.getInstance().getReference("Registered User");
                 Log.d("TAG", "Reference path: " + referenceProfile.toString());
                 referenceProfile.child(firebaseUser.getUid()).setValue(writeUserDetails).addOnCompleteListener(task1 -> {
                     if(task1.isSuccessful()){
         //Send Verification Email
                         firebaseUser.sendEmailVerification();
-                        Toast.makeText(RegisterActivity.this,"User Registerered succesfully.Please verify your email",Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this,"User Registered successfully.Please verify your email",Toast.LENGTH_LONG).show();
 
 
-                        //Open User Profile after susseful registration
+                        //Open User Profile after successful registration
                         Intent intent= new Intent(RegisterActivity.this,UserProfileActivity.class);
-                        //to Prevent User from returning back to resiter activity in pressing back button after registration
+                        //to Prevent User from returning back to resister activity in pressing back button after registration
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         finish(); //to close Register Activity
                     }else {
-                        Toast.makeText(RegisterActivity.this,"User Registeration failed.try again",Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this,"User Registration failed.try again",Toast.LENGTH_LONG).show();
                         progressBar.setVisibility(View.GONE);
                     }
                 });
@@ -187,7 +187,7 @@ private EditText editTextRegisterFullName,editTextRegisterEmail,editTextRegister
                 try {
                     throw Objects.requireNonNull(task.getException());
                 } catch (FirebaseAuthWeakPasswordException e){
-                    editTextRegisterPwd.setError("Your password is to weak.KIndly use a mix ");
+                    editTextRegisterPwd.setError("Your password is to weak.Kindly use a mix ");
                     editTextRegisterPwd.requestFocus();
                 } catch (FirebaseAuthInvalidCredentialsException e){
                     editTextRegisterPwd.setError("Email is invalid or already in use.Kindly Re-enter ");

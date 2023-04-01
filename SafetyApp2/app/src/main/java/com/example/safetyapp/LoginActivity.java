@@ -106,8 +106,11 @@ private static final String TAG="LoginActivity";
 
                     //open user profile
                     //Start USer Profile Activity
-                    startActivity(new Intent(LoginActivity.this,HomePageActivity.class));
+                    // Handle successful login
+                    Intent intent = new Intent(LoginActivity.this, AdditionalDetailsActivity.class);
+                    startActivity(intent);
                     finish();
+
                 }else {
                     firebaseUser.sendEmailVerification();
                     authProfile.signOut();
@@ -157,8 +160,11 @@ private static final String TAG="LoginActivity";
         if(authProfile.getCurrentUser()!=null){
             Toast.makeText(LoginActivity.this,"Already Logged In",Toast.LENGTH_SHORT).show();
             //Start USer Profile Activity
-            startActivity(new Intent(LoginActivity.this,HomePageActivity.class));
+            // Handle successful login
+            Intent intent = new Intent(LoginActivity.this, AdditionalDetailsActivity.class);
+            startActivity(intent);
             finish();
+
         }
         else {
             Toast.makeText(LoginActivity.this,"You can Login Now",Toast.LENGTH_SHORT).show();
