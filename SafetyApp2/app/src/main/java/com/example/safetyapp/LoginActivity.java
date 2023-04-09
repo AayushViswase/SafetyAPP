@@ -1,7 +1,9 @@
 package com.example.safetyapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -107,9 +109,28 @@ private static final String TAG="LoginActivity";
                     //open user profile
                     //Start USer Profile Activity
                     // Handle successful login
-                    Intent intent = new Intent(LoginActivity.this, AdditionalDetailsActivity.class);
-                    startActivity(intent);
-                    finish();
+                    // Get the SharedPreferences object
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+// Check whether the flag is set
+                    boolean isFirstLogin = prefs.getBoolean("isFirstLogin", true);
+
+                    if (isFirstLogin) {
+                        // Show the page
+                        Intent intent = new Intent(LoginActivity.this, AdditionalDetailsActivity.class);
+                        startActivity(intent);
+                        finish();
+
+                        // Set the flag in SharedPreferences
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putBoolean("isFirstLogin", false);
+                        editor.apply();
+                    }
+                    else{
+                        Intent intent = new Intent(LoginActivity.this, HomePageActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
 
                 }else {
                     firebaseUser.sendEmailVerification();
@@ -161,9 +182,32 @@ private static final String TAG="LoginActivity";
             Toast.makeText(LoginActivity.this,"Already Logged In",Toast.LENGTH_SHORT).show();
             //Start USer Profile Activity
             // Handle successful login
-            Intent intent = new Intent(LoginActivity.this, AdditionalDetailsActivity.class);
-            startActivity(intent);
-            finish();
+            //open user profile
+            //Start USer Profile Activity
+            // Handle successful login
+            // Get the SharedPreferences object
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+// Check whether the flag is set
+            boolean isFirstLogin = prefs.getBoolean("isFirstLogin", true);
+
+            if (isFirstLogin) {
+                // Show the page
+                Intent intent = new Intent(LoginActivity.this, AdditionalDetailsActivity.class);
+                startActivity(intent);
+                finish();
+
+                // Set the flag in SharedPreferences
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("isFirstLogin", false);
+                editor.apply();
+            }
+            else{
+                Intent intent = new Intent(LoginActivity.this, HomePageActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
 
         }
         else {

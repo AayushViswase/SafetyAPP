@@ -268,8 +268,7 @@ private ProgressBar progressBar;
             Intent intent=new Intent(UpdateProfileActivity.this,UpdateProfileActivity.class);
             startActivity(intent);
             finish();
-        }
-        else if (id==R.id.menu_update_email) {
+        } else if (id==R.id.menu_update_email) {
             Intent intent = new Intent(UpdateProfileActivity.this, UpdateEmailActivity.class);
             startActivity(intent);
             finish();

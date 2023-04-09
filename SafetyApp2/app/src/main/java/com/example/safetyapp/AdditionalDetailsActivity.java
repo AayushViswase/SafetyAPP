@@ -13,6 +13,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Objects;
+
 public class AdditionalDetailsActivity extends AppCompatActivity {
     EditText firstPersonEmail, firstPersonPhone, secondPersonEmail, secondPersonPhone;
     Button saveDetailsButton;
@@ -34,10 +36,10 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
 
         // Get current user and user id
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        userId = currentUser.getUid();
+        userId = Objects.requireNonNull(currentUser).getUid();
 
         // Get database reference for the current user
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+        databaseReference = FirebaseDatabase.getInstance().getReference("Registered User").child(userId);
 
         // Set click listener for save details button
         saveDetailsButton.setOnClickListener(new View.OnClickListener() {

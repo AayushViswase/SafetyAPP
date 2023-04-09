@@ -8,6 +8,8 @@
         android:id="@+id/menu_refresh" />
     <item android:title="Update Profile"
         android:id="@+id/menu_update_profile"/>
+    <item android:title="Update Details"
+        android:id="@+id/menu_update_details"/>
     <item android:title="Update Email"
         android:id="@+id/menu_update_email"/>
     <item android:title="Update Password"
