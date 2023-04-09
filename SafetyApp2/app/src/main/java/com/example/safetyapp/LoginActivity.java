@@ -52,10 +52,7 @@ private static final String TAG="LoginActivity";
         });
         //register
         TextView textViewLinkRegister=findViewById(R.id.textView_register_link);
-        textViewLinkRegister.setOnClickListener(v -> {
-            Toast.makeText(LoginActivity.this, "You can reset your password now", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
-        });
+        textViewLinkRegister.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this,RegisterActivity.class)));
 
 
         //Show Hide PPassword
@@ -98,46 +95,26 @@ private static final String TAG="LoginActivity";
 
     private void loginUser(String email, String pwd) {
         authProfile.signInWithEmailAndPassword(email, pwd).addOnCompleteListener(LoginActivity.this, task -> {
-            if(task.isSuccessful()){
-                Toast.makeText(LoginActivity.this,"Verify Email",Toast.LENGTH_SHORT).show();
+            FirebaseUser firebaseUser;
+            if (task.isSuccessful()) {
+                Toast.makeText(LoginActivity.this, "Verify Email", Toast.LENGTH_SHORT).show();
                 //get instance of current User
-                FirebaseUser firebaseUser=authProfile.getCurrentUser();
+                firebaseUser = authProfile.getCurrentUser();
                 //Check if email is verified before user can access their profile
-                if(Objects.requireNonNull(firebaseUser).isEmailVerified()){
-                    Toast.makeText(LoginActivity.this,"You are logged in now",Toast.LENGTH_SHORT).show();
+                if (Objects.requireNonNull(firebaseUser).isEmailVerified()) {
+                    Toast.makeText(LoginActivity.this, "You are logged in now", Toast.LENGTH_SHORT).show();
 
-                    //open user profile
-                    //Start USer Profile Activity
-                    // Handle successful login
-                    // Get the SharedPreferences object
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                    Intent intent = new Intent(LoginActivity.this, HomePageActivity.class);
+                    startActivity(intent);
+                    finish();
 
-// Check whether the flag is set
-                    boolean isFirstLogin = prefs.getBoolean("isFirstLogin", true);
-
-                    if (isFirstLogin) {
-                        // Show the page
-                        Intent intent = new Intent(LoginActivity.this, AdditionalDetailsActivity.class);
-                        startActivity(intent);
-                        finish();
-
-                        // Set the flag in SharedPreferences
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putBoolean("isFirstLogin", false);
-                        editor.apply();
-                    }
-                    else{
-                        Intent intent = new Intent(LoginActivity.this, HomePageActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-
-                }else {
+                } else {
                     firebaseUser.sendEmailVerification();
                     authProfile.signOut();
                     showAlertDialog();
                 }
-            }else {
+            }
+            else {
 
                 try{
                     throw Objects.requireNonNull(task.getException());
@@ -178,38 +155,13 @@ private static final String TAG="LoginActivity";
     protected void onStart() {
 
         super.onStart();
-        if(authProfile.getCurrentUser()!=null){
-            Toast.makeText(LoginActivity.this,"Already Logged In",Toast.LENGTH_SHORT).show();
-            //Start USer Profile Activity
-            // Handle successful login
-            //open user profile
-            //Start USer Profile Activity
-            // Handle successful login
-            // Get the SharedPreferences object
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-// Check whether the flag is set
-            boolean isFirstLogin = prefs.getBoolean("isFirstLogin", true);
-
-            if (isFirstLogin) {
-                // Show the page
-                Intent intent = new Intent(LoginActivity.this, AdditionalDetailsActivity.class);
-                startActivity(intent);
-                finish();
-
-                // Set the flag in SharedPreferences
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean("isFirstLogin", false);
-                editor.apply();
-            }
-            else{
+        if(authProfile.getCurrentUser()!=null) {
+            Toast.makeText(LoginActivity.this, "Already Logged In", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, HomePageActivity.class);
                 startActivity(intent);
                 finish();
             }
 
-
-        }
         else {
             Toast.makeText(LoginActivity.this,"You can Login Now",Toast.LENGTH_SHORT).show();
 
