@@ -17,22 +17,16 @@ public class MainActivity extends AppCompatActivity {
 
         //Set the title
         Button buttonLogin=findViewById(R.id.button_login);
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                startActivity(intent);
-            }
+        buttonLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+            startActivity(intent);
         });
 
         //Open Register Activity
         TextView textViewRegister=findViewById(R.id.textView_register_link);
-        textViewRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,RegisterActivity.class);
-                startActivity(intent);
-            }
+        textViewRegister.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this,RegisterActivity.class);
+            startActivity(intent);
         });
     }
 }

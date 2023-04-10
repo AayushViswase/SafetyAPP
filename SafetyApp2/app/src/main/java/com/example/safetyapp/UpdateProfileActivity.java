@@ -1,5 +1,6 @@
 package com.example.safetyapp;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -19,8 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -42,6 +40,7 @@ private String textFullName,textDoB,textMobile,textGender;
 private FirebaseAuth authProfile;
 private ProgressBar progressBar;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,59 +62,40 @@ private ProgressBar progressBar;
 
         //Upload Profile pic
         Button buttonUplaodProfilePic=findViewById(R.id.button_update_profile);
-        buttonUplaodProfilePic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(UpdateProfileActivity.this,UpdateProfileActivity.class);
-                    startActivity(intent);
-                    finish();
-
-            }
-        });
-        //UPDATE EMAIL
-        Button buttonUpdateEmail=findViewById(R.id.button_update_profile);
-        buttonUpdateEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(UpdateProfileActivity.this,UpdateEmailActivity.class);
+        buttonUplaodProfilePic.setOnClickListener(v -> {
+            Intent intent=new Intent(UpdateProfileActivity.this,UpdateProfileActivity.class);
                 startActivity(intent);
                 finish();
 
-            }
+        });
+        //UPDATE EMAIL
+        Button buttonUpdateEmail=findViewById(R.id.button_update_profile);
+        buttonUpdateEmail.setOnClickListener(v -> {
+            Intent intent=new Intent(UpdateProfileActivity.this,UpdateEmailActivity.class);
+            startActivity(intent);
+            finish();
+
         });
 
         //Setting up DatePicker on EditText
-        editTextUpdateDoB.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
+        editTextUpdateDoB.setOnClickListener(v -> {
 
-                String[] textSADoB =textDoB.split("/");
-                int day=Integer.parseInt(textSADoB[0]);
-                int month=Integer.parseInt(textSADoB[1])-1;
-                int year=Integer.parseInt(textSADoB[2]);
+            String[] textSADoB =textDoB.split("/");
+            int day=Integer.parseInt(textSADoB[0]);
+            int month=Integer.parseInt(textSADoB[1])-1;
+            int year=Integer.parseInt(textSADoB[2]);
 
-                DatePickerDialog picker;
+            DatePickerDialog picker;
 
-                
-                //Date picker dialog
-                picker =new DatePickerDialog(UpdateProfileActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        editTextUpdateDoB.setText(dayOfMonth+"/"+(month+1)+"/"+year);
-                    }
-                },year,month,day);
-                picker.show();
-            }
+
+            //Date picker dialog
+            picker =new DatePickerDialog(UpdateProfileActivity.this, (view, year1, month1, dayOfMonth) -> editTextUpdateDoB.setText(dayOfMonth+"/"+(month1 +1)+"/"+ year1),year,month,day);
+            picker.show();
         });
         
         //Update Profile
         Button buttonUpdateProfile=findViewById(R.id.button_update_profile);
-        buttonUpdateProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateProfile(firebaseUser);
-            }
-        });
+        buttonUpdateProfile.setOnClickListener(v -> updateProfile(firebaseUser));
 
 
     }
@@ -173,30 +153,27 @@ private ProgressBar progressBar;
             
             progressBar.setVisibility(View.VISIBLE);
             
-            referenceProfile.child(userID).setValue(writeUserDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        //setting new display name
-                        UserProfileChangeRequest profileUpdate=new UserProfileChangeRequest.Builder().setDisplayName(textFullName).build();
-                        firebaseUser.updateProfile(profileUpdate);
+            referenceProfile.child(userID).setValue(writeUserDetails).addOnCompleteListener(task -> {
+                if(task.isSuccessful()){
+                    //setting new display name
+                    UserProfileChangeRequest profileUpdate=new UserProfileChangeRequest.Builder().setDisplayName(textFullName).build();
+                    firebaseUser.updateProfile(profileUpdate);
 
-                        Toast.makeText(UpdateProfileActivity.this, "Update successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UpdateProfileActivity.this, "Update successful", Toast.LENGTH_SHORT).show();
 
-                        //Stop returning to update profile activity
-                        Intent intent=new Intent(UpdateProfileActivity.this,UserProfileActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        finish();
-                    }else {
-                        try {
-                            throw Objects.requireNonNull(task.getException());
-                        }catch (Exception e) {
-                            Toast.makeText(UpdateProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                    //Stop returning to update profile activity
+                    Intent intent=new Intent(UpdateProfileActivity.this,UserProfileActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    try {
+                        throw Objects.requireNonNull(task.getException());
+                    }catch (Exception e) {
+                        Toast.makeText(UpdateProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                    progressBar.setVisibility(View.GONE);
                 }
+                progressBar.setVisibility(View.GONE);
             });
 
         }

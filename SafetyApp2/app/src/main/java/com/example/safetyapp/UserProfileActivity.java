@@ -1,5 +1,6 @@
 package com.example.safetyapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -102,12 +103,23 @@ public class UserProfileActivity extends AppCompatActivity {
         builder.setMessage("Please Verify you Email now.You can not Login without email verification.");
 
         //Open email Apps if User clicks continue button
-        builder.setPositiveButton("Continue", (dialog, which) -> {
+        builder.setPositiveButton("Verify", (dialog, which) -> {
             Intent intent=new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_APP_EMAIL);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         });
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
+            authProfile.signOut();
+            Toast.makeText(UserProfileActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(UserProfileActivity.this,MainActivity.class);
+            //Clear stack tpo prevent user coming back to userProfile Activation back button
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        });
+
+
         AlertDialog alertDialog= builder.create();
         alertDialog.show();
     }
@@ -116,7 +128,7 @@ public class UserProfileActivity extends AppCompatActivity {
         String userID= firebaseUser.getUid();
 
 
-        //Extracting User Refrence from database from "Registered User"
+        //Extracting User Reference from database from "Registered User"
         DatabaseReference refrenceProfile= FirebaseDatabase.getInstance().getReference("Registered User");
         refrenceProfile.child(userID).addListenerForSingleValueEvent(new ValueEventListener(){
             @Override
@@ -158,7 +170,7 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
     }
-//creatinf action bar
+//creating action bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.common_menu,menu);
@@ -195,13 +207,13 @@ public class UserProfileActivity extends AppCompatActivity {
             authProfile.signOut();
             Toast.makeText(UserProfileActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(UserProfileActivity.this,MainActivity.class);
-            //Clear stack tpo prevent user comming back to userProfile Activityon back button
+            //Clear stack tpo prevent user coming back to userProfile Activation back button
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         }else {
 
-            Toast.makeText(UserProfileActivity.this, "Somenthing went Wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UserProfileActivity.this, "Something went Wrong", Toast.LENGTH_SHORT).show();
 
         }
         return super.onOptionsItemSelected(item);

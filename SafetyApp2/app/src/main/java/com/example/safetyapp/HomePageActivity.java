@@ -1,16 +1,12 @@
 package com.example.safetyapp;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.Objects;
 
 public class HomePageActivity extends AppCompatActivity {
     @Override
@@ -28,25 +24,19 @@ public class HomePageActivity extends AppCompatActivity {
             Button profileButton = findViewById(R.id.button_profile);
 
             // Set onClickListener for instruction button
-            instructionButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // Handle instruction button click
-                    showAlertDialog();
+            instructionButton.setOnClickListener(view -> {
+                // Handle instruction button click
+                showAlertDialog();
 
-                }
             });
 
 
 
             // Set onClickListener for profile button
-            profileButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // Handle profile button click
-                    startActivity(new Intent(HomePageActivity.this,UserProfileActivity.class));
+            profileButton.setOnClickListener(view -> {
+                // Handle profile button click
+                startActivity(new Intent(HomePageActivity.this,UserProfileActivity.class));
 
-                }
             });
         }
 
@@ -61,22 +51,12 @@ public class HomePageActivity extends AppCompatActivity {
 
 
         //Return to Home activity is user presses OK button
-        builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        builder.setNeutralButton("OK", (dialog, which) -> dialog.cancel());
 
         AlertDialog alertDialog= builder.create();
 
         //cahnge Color
-        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
-                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red));
-            }
-        });
+        alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red)));
         alertDialog.show();
     }
 }

@@ -162,7 +162,7 @@ private EditText editTextRegisterFullName,editTextRegisterEmail,editTextRegister
 
                 //EXTRACTING  USER FROM REFERENCE FROM DATABASE FOR "register users"
                 DatabaseReference referenceProfile= FirebaseDatabase.getInstance().getReference("Registered User");
-                Log.d("TAG", "Reference path: " + referenceProfile.toString());
+                Log.d("TAG", "Reference path: " + referenceProfile);
                 referenceProfile.child(firebaseUser.getUid()).setValue(writeUserDetails).addOnCompleteListener(task1 -> {
                     if(task1.isSuccessful()){
         //Send Verification Email

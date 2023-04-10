@@ -1,10 +1,5 @@
 package com.example.safetyapp;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NavUtils;
-
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -18,17 +13,18 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.net.URI;
 import java.util.Objects;
 
 public class UploadProfilePicActivity extends AppCompatActivity {
@@ -59,25 +55,17 @@ public class UploadProfilePicActivity extends AppCompatActivity {
         storageReference= FirebaseStorage.getInstance().getReference("DisplayPics");
         Uri uri=firebaseUser.getPhotoUrl();
 
-        //Set Users current DP in ImageVIew(if uplaoded already).We will pocasso since setImage
+        //Set Users current DP in ImageVIew(if uploaded already).We will pocasso since setImage
         //Regular URIs
         Picasso.with(UploadProfilePicActivity.this).load(uri).into(imageViewUploadPic);
 
-        //Chooseing image to upload
-        buttonUploadPicChoose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFileChooser();
-            }
-        });
+        //Choosing image to upload
+        buttonUploadPicChoose.setOnClickListener(v -> openFileChooser());
 
         //Upload Image
-        buttonUploadPic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                UploadPic();
-            }
+        buttonUploadPic.setOnClickListener(v -> {
+            progressBar.setVisibility(View.VISIBLE);
+            UploadPic();
         });
 
 
@@ -88,43 +76,31 @@ public class UploadProfilePicActivity extends AppCompatActivity {
     private void UploadPic() {
         if(uriImage!=null){
             //save the image with uid pf thr currently logged user
-            StorageReference fileRefrence=storageReference.child(authProfile.getCurrentUser().getUid()+"/displaypic."+getFIleExtention(uriImage));
+            StorageReference fileRefrence=storageReference.child(Objects.requireNonNull(authProfile.getCurrentUser()).getUid()+"/display-pic."+getFileExtention(uriImage));
 
             //Upload image to storage
-            fileRefrence.putFile(uriImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            fileRefrence.putFile(uriImage).addOnSuccessListener(taskSnapshot -> {
 
-                    fileRefrence.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Uri downloadUri=uri;
-                            firebaseUser=authProfile.getCurrentUser();
+                fileRefrence.getDownloadUrl().addOnSuccessListener(uri -> {
+                    firebaseUser=authProfile.getCurrentUser();
 
-                            //finally set the display image of the user after uplaod
-                            UserProfileChangeRequest profileUpdate=new  UserProfileChangeRequest.Builder().setPhotoUri(downloadUri).build();
-                            firebaseUser.updateProfile(profileUpdate);
-                        }
-                    });
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(UploadProfilePicActivity.this, "Upload Successfull", Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(UploadProfilePicActivity.this,UserProfileActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(UploadProfilePicActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+                    //finally set the display image of the user after upload
+                    UserProfileChangeRequest profileUpdate=new  UserProfileChangeRequest.Builder().setPhotoUri(uri).build();
+                    firebaseUser.updateProfile(profileUpdate);
+                });
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(UploadProfilePicActivity.this, "Upload Successful", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(UploadProfilePicActivity.this,UserProfileActivity.class);
+                startActivity(intent);
+                finish();
+            }).addOnFailureListener(e -> Toast.makeText(UploadProfilePicActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show());
         }else {
             progressBar.setVisibility(View.GONE);
             Toast.makeText(UploadProfilePicActivity.this, "No file Selected", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private String getFIleExtention(Uri uri) {
+    private String getFileExtention(Uri uri) {
         ContentResolver cR=getContentResolver();
         MimeTypeMap mime=MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
@@ -137,7 +113,7 @@ public class UploadProfilePicActivity extends AppCompatActivity {
         startActivityForResult(intent,PICK_IMAGE_REQUEST);
 
     }
-    //alternativ for deprecated method///*********************************************************************************
+    //alternative for deprecated method///*********************************************************************************
 //    private ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
 //            new ActivityResultCallback<Uri>() {
 //                @Override
@@ -161,7 +137,7 @@ public class UploadProfilePicActivity extends AppCompatActivity {
         }
     }
 
-    //creatinf action bar
+    //creating action bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.common_menu,menu);
@@ -199,13 +175,13 @@ public class UploadProfilePicActivity extends AppCompatActivity {
             authProfile.signOut();
             Toast.makeText(UploadProfilePicActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(UploadProfilePicActivity.this,MainActivity.class);
-            //Clear stack tpo prevent user comming back to userProfile Activityon back button
+            //Clear stack tpo prevent user coming back to userProfile Activation back button
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         }else {
 
-            Toast.makeText(UploadProfilePicActivity.this, "Somenthing went Wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UploadProfilePicActivity.this, "Something went Wrong", Toast.LENGTH_SHORT).show();
 
         }
         return super.onOptionsItemSelected(item);

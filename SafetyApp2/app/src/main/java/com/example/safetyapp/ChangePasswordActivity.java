@@ -55,7 +55,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         authProfile=FirebaseAuth.getInstance();
         FirebaseUser firebaseUser=authProfile.getCurrentUser();
 
-        if(Objects.equals(firebaseUser, "")){
+        if(Objects.equals(firebaseUser, null)){
             Toast.makeText(ChangePasswordActivity.this, "Something went wrong.User details not available", Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(ChangePasswordActivity.this,UserProfileActivity.class);
             startActivity(intent);
