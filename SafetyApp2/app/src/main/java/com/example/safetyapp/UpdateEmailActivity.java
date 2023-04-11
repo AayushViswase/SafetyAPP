@@ -103,7 +103,7 @@ public class UpdateEmailActivity extends AppCompatActivity {
                                 editTextNewEmail.requestFocus();
                             }else if(!Patterns.EMAIL_ADDRESS.matcher(userNewEmail).matches()){
                                 Toast.makeText(UpdateEmailActivity.this, "Please enter new email", Toast.LENGTH_SHORT).show();
-                                editTextNewEmail.setError("Please enter new mail");
+                                editTextNewEmail.setError("Valid email Required");
                                 editTextNewEmail.requestFocus();
                             } else if (userOldEmail.matches(userNewEmail)) {
                                 Toast.makeText(UpdateEmailActivity.this, "New Email cannot be same as old", Toast.LENGTH_SHORT).show();

@@ -78,7 +78,7 @@ private EditText editTextRegisterFullName,editTextRegisterEmail,editTextRegister
         int selectedGenderId=radioGroupRegisterGender.getCheckedRadioButtonId();
         radioButtonRegisterGenderSelected=findViewById(selectedGenderId);
 
-        //Obtain the Entered data
+        //Get the details entered in the EditText views
         String textFullName=editTextRegisterFullName.getText().toString();
         String textEmail=editTextRegisterEmail.getText().toString();
         String textDoB=editTextRegisterDoB.getText().toString();

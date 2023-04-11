@@ -1,6 +1,8 @@
 package com.example.safetyapp;
 
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,6 +16,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AdditionalDetailsActivity extends AppCompatActivity {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -62,11 +66,19 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
             String email3 = emailEditText3.getText().toString();
             String phone3 = phoneEditText3.getText().toString();
 
+
+            //Validate mobile no.
+
+
+
+
             // Create a HashMap to store the details
             HashMap<String, Object> detailsMap = new HashMap<>();
-            detailsMap.put("name1", name1);
-            detailsMap.put("email1", email1);
-            detailsMap.put("phone1", phone1);
+            if(Check(name1, email1, phone1, nameEditText1, emailEditText1, phoneEditText1)) {
+                detailsMap.put("name1", name1);
+                detailsMap.put("email1", email1);
+                detailsMap.put("phone1", phone1);
+            }
 
             detailsMap.put("name2", name2);
             detailsMap.put("email2", email2);
@@ -85,5 +97,41 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
                 }
             });
         });
+    }
+
+    private boolean Check(String name, String email, String phone, EditText nameEditText, EditText emailEditText, EditText phoneEditText) {
+        //Validate mobile no.
+        String mobileRegex="[6-9]\\d{9}";
+        Matcher mobileMatcher;
+        Pattern mobilePattern=Pattern.compile(mobileRegex);
+        mobileMatcher=mobilePattern.matcher(phone);
+        if(TextUtils.isEmpty(name)){
+            Toast.makeText(AdditionalDetailsActivity.this,"Please enter full name",Toast.LENGTH_LONG).show();
+            nameEditText.setError("Full name Required");
+            nameEditText.requestFocus();
+        } else if(TextUtils.isEmpty(email)) {
+            Toast.makeText(AdditionalDetailsActivity.this, "Please enter your email", Toast.LENGTH_LONG).show();
+            emailEditText.setError("Email Required");
+            emailEditText.requestFocus();
+        } else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(AdditionalDetailsActivity.this, "Please Re-enter your email", Toast.LENGTH_LONG).show();
+            emailEditText.setError("Valid email Required");
+            emailEditText.requestFocus();
+        }else if(TextUtils.isEmpty(phone)){
+            Toast.makeText(AdditionalDetailsActivity.this, "Please enter your Mobile no.", Toast.LENGTH_LONG).show();
+            phoneEditText.setError("Mobile No. is required Required");
+            phoneEditText.requestFocus();
+        } else if (phone.length()!=10) {
+            Toast.makeText(AdditionalDetailsActivity.this, "Please Re-enter your mobile no.", Toast.LENGTH_LONG).show();
+            phoneEditText.setError("Mobile No, should be 10 digit");
+            phoneEditText.requestFocus();
+        } else if(!mobileMatcher.find()){
+            Toast.makeText(AdditionalDetailsActivity.this, "Please Re-enter your mobile no.", Toast.LENGTH_LONG).show();
+            phoneEditText.setError("Mobile No, is not valid");
+            phoneEditText.requestFocus();
+        }else{
+            return true;
+        }
+        return false;
     }
 }
