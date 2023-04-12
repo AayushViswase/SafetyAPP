@@ -66,7 +66,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         authProfile = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = authProfile.getCurrentUser();
-        System.out.println(firebaseUser);
+
 
 
         if (firebaseUser == null) {
