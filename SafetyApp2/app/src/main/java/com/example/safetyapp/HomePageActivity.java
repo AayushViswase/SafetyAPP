@@ -1,18 +1,26 @@
 package com.example.safetyapp;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
+import android.Manifest;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class HomePageActivity extends AppCompatActivity {
+    private static final int PERMISSIONS_REQUEST_INTERNET = 1;
 
     private ShakeDetector shakeDetector;
+
+
     @Override
     public void onBackPressed() {
         Toast.makeText(HomePageActivity.this, "Can Not Close App. Please remove from memory", Toast.LENGTH_SHORT).show();
@@ -22,6 +30,16 @@ public class HomePageActivity extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_home_page);
+
+            // Check if the app has internet permission
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+                // Request internet permission
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, PERMISSIONS_REQUEST_INTERNET);
+            }
+
+
+
+
             shakeDetector = new ShakeDetector(this);
 
             // Register the listener with the sensor manager
@@ -47,6 +65,19 @@ public class HomePageActivity extends AppCompatActivity {
 
             });
         }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+
+        if (requestCode == PERMISSIONS_REQUEST_INTERNET) {
+            if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                // Permission denied, show a message to the user or exit the app
+                Toast.makeText(this, "Internet permission required to send email.", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+    }
     @Override
     protected void onPause() {
         super.onPause();
@@ -79,7 +110,7 @@ public class HomePageActivity extends AppCompatActivity {
 
         AlertDialog alertDialog= builder.create();
 
-        //cahnge Color
+        //change Color
         alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red)));
         alertDialog.show();
     }

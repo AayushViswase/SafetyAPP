@@ -23,24 +23,16 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ShakeDetector extends AppCompatActivity implements SensorEventListener {
 
-    private final double lastAcceleration;
-    private final double currentAcceleration;
     private final HomePageActivity homePageActivity;
-    private final double acceleration;
     protected SensorManager sensorManager;
 
     private String name, email, mobile;
-
-    private Context mContext;
 
     private int shakeCount = 0;
 
     public ShakeDetector(HomePageActivity homePageActivity) {
         this.homePageActivity = homePageActivity;
         this.sensorManager = (SensorManager) homePageActivity.getSystemService(Context.SENSOR_SERVICE);
-        this.acceleration = 0f;
-        this.currentAcceleration = SensorManager.GRAVITY_EARTH;
-        this.lastAcceleration = SensorManager.GRAVITY_EARTH;
     }
 
 
@@ -83,13 +75,13 @@ public class ShakeDetector extends AppCompatActivity implements SensorEventListe
         assert firebaseUser != null;
         String userID = firebaseUser.getUid();
         String i = "Person_1", j = "Person_2", k = "Person_3";
-        DataRetrive(userID, i, firebaseUser, email);
-        DataRetrive(userID, j, firebaseUser, email);
-        DataRetrive(userID, k, firebaseUser, email);
+        DataRetrieve(userID, i, firebaseUser);
+        DataRetrieve(userID, j, firebaseUser);
+        DataRetrieve(userID, k, firebaseUser);
 
     }
 
-    private void DataRetrive(String userID, String i, FirebaseUser firebaseUser, String userEmail) {
+    private void DataRetrieve(String userID, String i, FirebaseUser firebaseUser) {
         System.out.println("Firebase??????");
 
         DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference();
@@ -103,7 +95,7 @@ public class ShakeDetector extends AppCompatActivity implements SensorEventListe
                     email = readUserDetail.email;
                     mobile = readUserDetail.mobile;
                     System.out.println(name + " " + email + " " + mobile + " " + firebaseUser.getEmail());
-                    sendMail(email, userEmail);
+                    sendMailMsg(email);
                 }
             }
 
@@ -114,9 +106,29 @@ public class ShakeDetector extends AppCompatActivity implements SensorEventListe
         });
     }
 
-    private void sendMail(String email, String userMail) {
+    private void sendMailMsg(String email) {
         System.out.println("ssssssssssssssssssssssssssssssssssss");
-        send se = new send(email, "Emergency Alert");
-        se.execute();
+        String subject = "Emergency Alert";
+        String message = "I need help. Please contact me as soon as possible.";
+
+        new Thread(() -> SendEmailTask.sendEmail("aayushviswase008@gmail.com", "ctiibcsgzchbbpeu", email, subject, message)
+
+                .thenAccept(result -> {
+                    if (result) {
+                        // Email sent successfully
+                        System.out.println("Email sent successfully");
+                    } else {
+                        // Email sending failed
+                        System.out.println("Email sending failed");
+                    }
+                })
+                .exceptionally(ex -> {
+                    ex.printStackTrace();
+                    return null;
+                })).start();
+
+
+
+
     }
 }
