@@ -255,19 +255,6 @@
                     android:visibility="gone" />
             </RelativeLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:layout_marginTop="50dp"
-                android:text="@string/registered_user_since"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:hint="@string/loading"
-                android:id="@+id/textView_show_register_date"/>
-
         </LinearLayout>
     </ScrollView>
 

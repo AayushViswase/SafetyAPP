@@ -1,5 +1,6 @@
 package com.example.safetyapp;
 
+import android.location.Location;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -12,10 +13,8 @@ import java.util.concurrent.CompletableFuture;
 
 public class SendEmailTask {
 
-    public static CompletableFuture<Boolean> sendEmail(String username, String password, String recipientEmail, String subject, String messageBody) {
+    public static CompletableFuture<Boolean> sendEmail(String username, String password, String recipientEmail, String subject, Location location) {
         CompletableFuture<Boolean> result = new CompletableFuture<>();
-        System.out.println("sendmailtask called");
-
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -29,15 +28,21 @@ public class SendEmailTask {
         });
 
         try {
-            Message mm = new MimeMessage(session);
-            mm.setFrom(new InternetAddress("aayushviswase008@gmail.com"));
-            mm.setRecipients(Message.RecipientType.TO,
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("aayushviswase008@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(recipientEmail));
-            mm.setSubject(subject);
-            mm.setText("I need help. Please contact me as soon as possible.");
-                    Transport.send(mm);
+            message.setSubject(subject);
+            String messageText = "I need help. Please contact me as soon as possible.\n" +
+                    "Please help me! I am in danger.\n" +
+                    "My current location is:\n" +
+                    "Latitude: " + location.getLatitude() + "\n" +
+                    "Longitude: " + location.getLongitude();
+            message.setText(messageText);
+            Transport.send(message);
 
             result.complete(true);
+
         } catch (MessagingException e) {
             e.printStackTrace();
             result.complete(false);

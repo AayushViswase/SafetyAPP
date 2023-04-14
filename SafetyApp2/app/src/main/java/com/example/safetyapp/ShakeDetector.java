@@ -1,17 +1,24 @@
 package com.example.safetyapp;
 
 import static android.content.ContentValues.TAG;
-
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.loader.app.LoaderManager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,20 +28,26 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.concurrent.CompletableFuture;
+
 public class ShakeDetector extends AppCompatActivity implements SensorEventListener {
 
     private final HomePageActivity homePageActivity;
     protected SensorManager sensorManager;
 
+
     private String name, email, mobile;
 
     private int shakeCount = 0;
+    private LocationManager locationManager;
 
     public ShakeDetector(HomePageActivity homePageActivity) {
         this.homePageActivity = homePageActivity;
         this.sensorManager = (SensorManager) homePageActivity.getSystemService(Context.SENSOR_SERVICE);
-    }
+        this.locationManager = (LocationManager) homePageActivity.getSystemService(Context.LOCATION_SERVICE);
 
+
+    }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -48,7 +61,6 @@ public class ShakeDetector extends AppCompatActivity implements SensorEventListe
             shakeCount++;
             if (shakeCount >= 3) {
                 Toast.makeText(homePageActivity, "Shake:" + shakeCount, Toast.LENGTH_SHORT).show();
-                System.out.println("sfdsafsdfdsaf");
                 mailRequest();
                 shakeCount = 0;
             } else {
@@ -68,7 +80,6 @@ public class ShakeDetector extends AppCompatActivity implements SensorEventListe
     //
     private void mailRequest() {
 
-        System.out.println("11111111111111111111111111111111111111");
         FirebaseAuth authProfile = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = authProfile.getCurrentUser();
 
@@ -82,7 +93,6 @@ public class ShakeDetector extends AppCompatActivity implements SensorEventListe
     }
 
     private void DataRetrieve(String userID, String i, FirebaseUser firebaseUser) {
-        System.out.println("Firebase??????");
 
         DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference();
         referenceProfile.child("Registered User").child(userID).child("Details").child(i).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -95,7 +105,7 @@ public class ShakeDetector extends AppCompatActivity implements SensorEventListe
                     email = readUserDetail.email;
                     mobile = readUserDetail.mobile;
                     System.out.println(name + " " + email + " " + mobile + " " + firebaseUser.getEmail());
-                    sendMailMsg(email);
+                    new Thread(() -> sendMailMsg(email)).start();
                 }
             }
 
@@ -106,29 +116,47 @@ public class ShakeDetector extends AppCompatActivity implements SensorEventListe
         });
     }
 
-    private void sendMailMsg(String email) {
-        System.out.println("ssssssssssssssssssssssssssssssssssss");
-        String subject = "Emergency Alert";
-        String message = "I need help. Please contact me as soon as possible.";
 
-        new Thread(() -> SendEmailTask.sendEmail("aayushviswase008@gmail.com", "ctiibcsgzchbbpeu", email, subject, message)
+    private void sendMailMsg(String email){
 
-                .thenAccept(result -> {
-                    if (result) {
-                        // Email sent successfully
-                        System.out.println("Email sent successfully");
-                    } else {
-                        // Email sending failed
-                        System.out.println("Email sending failed");
-                    }
-                })
-                .exceptionally(ex -> {
-                    ex.printStackTrace();
-                    return null;
-                })).start();
-
-
-
-
+        // Create a LocationManager object to obtain the user's location
+        LocationManager locationManager = (LocationManager) homePageActivity.getSystemService(Context.LOCATION_SERVICE);
+        // Check if the user has granted permission to access their location
+        if (ActivityCompat.checkSelfPermission(homePageActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            // Request the user's location
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            // Send an email with the user's location
+            String username = "aayushviswase008@gmail.com";
+            String password = "ctiibcsgzchbbpeu";
+            String recipientEmail = email.toString();
+            String subject = "Emergency Alert";
+            System.out.println("sendmail");
+                CompletableFuture<Boolean> emailResult = SendEmailTask.sendEmail(username, password, recipientEmail, subject, location);
+                emailResult.thenAccept(success -> {
+                            if (success) {
+                                homePageActivity.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(homePageActivity, "Email sent successfully", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } else {
+                                homePageActivity.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(homePageActivity, "Email sending failed", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        })
+                        .exceptionally(ex -> {
+                            ex.printStackTrace();
+                            return null;
+                        });
+            } else {
+            // Request permission to access the user's location
+            ActivityCompat.requestPermissions(homePageActivity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+        }
     }
-}
+
