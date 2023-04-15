@@ -1,10 +1,16 @@
 package com.example.safetyapp;
 
+import static com.example.safetyapp.SendEmailTask.sendEmail;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+
+import android.speech.RecognizerIntent;
+
+
 import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.Toast;
@@ -16,6 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import java.util.ArrayList;
+
 public class HomePageActivity extends AppCompatActivity {
     private static final int VOLUME_DOWN_KEYCODE = 25;
     private static final int IMAGE_CAPTURE_REQUEST_CODE = 1;
@@ -23,6 +31,10 @@ public class HomePageActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_INTERNET = 1;
 
     private ShakeDetector shakeDetector;
+
+
+
+    private static final int SPEECH_REQUEST_CODE = 0;
 
 
     @Override
@@ -128,6 +140,43 @@ public class HomePageActivity extends AppCompatActivity {
         //change Color
         alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red)));
         alertDialog.show();
+    }
+
+
+
+
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            startSpeechToText();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void startSpeechToText() {
+        // Create an intent to launch the speech to text activity
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+
+        // Start the activity and wait for the result
+        startActivityForResult(intent, SPEECH_REQUEST_CODE);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
+            // Get the speech to text result
+            ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            String spokenText = results.get(0);
+
+            // Do something with the spoken text
+            // For example, send an email
+            //sendEmail(spokenText);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
 }
