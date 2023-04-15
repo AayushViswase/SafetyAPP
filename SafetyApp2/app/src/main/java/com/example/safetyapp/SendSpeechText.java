@@ -1,7 +1,5 @@
 package com.example.safetyapp;
 
-import android.location.Location;
-
 import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 
@@ -13,9 +11,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class SendEmailTask {
-
-    public static CompletableFuture<Boolean> sendEmail(String username, String password, String recipientEmail, String subject, Location location) {
+public class SendSpeechText {
+    public static CompletableFuture<Boolean> sendEmailST(String username, String password, String recipientEmail, String subject,String spokenText) {
         CompletableFuture<Boolean> result = new CompletableFuture<>();
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -35,12 +32,8 @@ public class SendEmailTask {
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(recipientEmail));
             message.setSubject(subject);
-            String messageText = "I need help. Please contact me as soon as possible.\n" +
-                    "Please help me! I am in danger.\n" +
-                    "My current location is:\n" +
-                    "Latitude: " + location.getLatitude() + "\n" +
-                    "Longitude: " + location.getLongitude();
-            message.setText(messageText);
+
+            message.setText(spokenText);
             Transport.send(message);
 
             result.complete(true);
@@ -53,3 +46,4 @@ public class SendEmailTask {
         return result;
     }
 }
+

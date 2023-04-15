@@ -30,14 +30,13 @@ public class CaptureImage extends AppCompatActivity {
     private ImageView imageView;
     private File photoFile;
     private Uri photoUri;
-    private Button captureButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture_image);
         imageView = findViewById(R.id.imageView);
-        captureButton = findViewById(R.id.button_capture);
+        Button captureButton = findViewById(R.id.button_capture);
         captureButton.setOnClickListener(v -> {
             requestCameraPermission(); // call requestCameraPermission() when the capture button is clicked
         });
@@ -70,19 +69,19 @@ public class CaptureImage extends AppCompatActivity {
         }
     }
 
-    private File createImageFile() throws IOException {
-        // Create a unique filename for the captured image
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-        // Save a file: path for use with ACTION_VIEW intents
-        return image;
-    }
+//    private File createImageFile() throws IOException {
+//        // Create a unique filename for the captured image
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+//        String imageFileName = "JPEG_" + timeStamp + "_";
+//        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+//        File image = File.createTempFile(
+//                imageFileName,  /* prefix */
+//                ".jpg",         /* suffix */
+//                storageDir      /* directory */
+//        );
+//        // Save a file: path for use with ACTION_VIEW intents
+//        return image;
+//    }
 
     private void requestCameraPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
