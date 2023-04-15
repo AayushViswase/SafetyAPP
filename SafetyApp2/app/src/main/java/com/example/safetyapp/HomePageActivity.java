@@ -184,13 +184,13 @@ safeZoneButton.setOnClickListener(v -> {
         assert firebaseUser != null;
         String userID = firebaseUser.getUid();
         String i = "Person_1", j = "Person_2", k = "Person_3";
-        DataRetrieve1(userID, i, firebaseUser,spokenText);
-        DataRetrieve1(userID, j, firebaseUser, spokenText);
-        DataRetrieve1(userID, k, firebaseUser, spokenText);
+        DataRetrieve1(userID, i, spokenText);
+        DataRetrieve1(userID, j, spokenText);
+        DataRetrieve1(userID, k, spokenText);
 
     }
 
-    private void DataRetrieve1(String userID, String i, FirebaseUser firebaseUser, String spokenText) {
+    private void DataRetrieve1(String userID, String i, String spokenText) {
 
         DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference();
         referenceProfile.child("Registered User").child(userID).child("Details").child(i).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -222,25 +222,14 @@ safeZoneButton.setOnClickListener(v -> {
             // Send an email with the user's location
             String username = "aayushviswase008@gmail.com";
             String password = "ctiibcsgzchbbpeu";
-            String recipientEmail = email.toString();
             String subject = "Text";
             System.out.println("sendmail");
-            CompletableFuture<Boolean> emailResult = SendSpeechText.sendEmailST(username, password, recipientEmail, subject,spokenText);
+            CompletableFuture<Boolean> emailResult = SendSpeechText.sendEmailST(username, password, email, subject,spokenText);
             emailResult.thenAccept(success -> {
                 if (success) {
-                    this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(HomePageActivity.this, "Text Email sent successfully", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    this.runOnUiThread(() -> Toast.makeText(HomePageActivity.this, "Text Email sent successfully", Toast.LENGTH_SHORT).show());
                 } else {
-                    this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(HomePageActivity.this, "Text Email sending failed", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    this.runOnUiThread(() -> Toast.makeText(HomePageActivity.this, "Text Email sending failed", Toast.LENGTH_SHORT).show());
                 }
             }).exceptionally(ex -> {
                         ex.printStackTrace();
