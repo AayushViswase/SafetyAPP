@@ -7,7 +7,10 @@ import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+
 import android.speech.RecognizerIntent;
+
+
 import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.Toast;
@@ -22,6 +25,9 @@ import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 
 public class HomePageActivity extends AppCompatActivity {
+    private static final int VOLUME_DOWN_KEYCODE = 25;
+    private static final int IMAGE_CAPTURE_REQUEST_CODE = 1;
+
     private static final int PERMISSIONS_REQUEST_INTERNET = 1;
 
     private ShakeDetector shakeDetector;
@@ -75,6 +81,17 @@ public class HomePageActivity extends AppCompatActivity {
 
             });
         }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == VOLUME_DOWN_KEYCODE) {
+            Intent intent=new Intent(HomePageActivity.this,CaptureImage.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
