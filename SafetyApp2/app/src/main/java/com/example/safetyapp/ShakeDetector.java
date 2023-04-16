@@ -1,6 +1,7 @@
 package com.example.safetyapp;
 
 import static android.content.ContentValues.TAG;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -10,15 +11,12 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.loader.app.LoaderManager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -63,6 +61,8 @@ public class ShakeDetector extends AppCompatActivity implements SensorEventListe
                 Toast.makeText(homePageActivity, "Shake:" + shakeCount, Toast.LENGTH_SHORT).show();
                 mailRequest();
                 shakeCount = 0;
+                Toast.makeText(homePageActivity, "Email sent successfully", Toast.LENGTH_SHORT).show();
+
             } else {
                 Toast.makeText(homePageActivity, "Shake:" + shakeCount, Toast.LENGTH_SHORT).show();
                 System.out.println("shakeCount");
@@ -133,14 +133,7 @@ public class ShakeDetector extends AppCompatActivity implements SensorEventListe
             System.out.println("sendmail");
                 CompletableFuture<Boolean> emailResult = SendEmailTask.sendEmail(username, password, recipientEmail, subject, location);
                 emailResult.thenAccept(success -> {
-                            if (success) {
-                                homePageActivity.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(homePageActivity, "Email sent successfully", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            } else {
+                            if (!success) {
                                 homePageActivity.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {

@@ -98,6 +98,7 @@ private ProgressBar progressBar;
         buttonUpdateProfile.setOnClickListener(v -> updateProfile(firebaseUser));
 
 
+
     }
 
     private void updateProfile(FirebaseUser firebaseUser) {

@@ -63,6 +63,7 @@ public class UpdateEmailActivity extends AppCompatActivity {
         }else{
             reAuthenticate(firebaseUser);
         }
+
     }
 
     @SuppressLint("SetTextI18n")

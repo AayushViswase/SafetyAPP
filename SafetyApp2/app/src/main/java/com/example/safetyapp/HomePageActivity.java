@@ -69,11 +69,11 @@ public class HomePageActivity extends AppCompatActivity {
 
             Button instructionButton = findViewById(R.id.buton_instruction);
             Button profileButton = findViewById(R.id.button_profile);
-Button safeZoneButton=findViewById(R.id.Safe_Zone);
-safeZoneButton.setOnClickListener(v -> {
-    startActivity(new Intent(HomePageActivity.this,SafeZone.class));
-    finish();
-});
+            Button safeZoneButton=findViewById(R.id.Safe_Zone);
+            safeZoneButton.setOnClickListener(v -> {
+                startActivity(new Intent(HomePageActivity.this,SafeZone.class));
+                finish();
+            });
             // Set onClickListener for instruction button
             instructionButton.setOnClickListener(view -> {
                 // Handle instruction button click
@@ -89,6 +89,7 @@ safeZoneButton.setOnClickListener(v -> {
                 startActivity(new Intent(HomePageActivity.this,UserProfileActivity.class));
 
             });
+
         }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -172,7 +173,9 @@ safeZoneButton.setOnClickListener(v -> {
             String spokenText = results.get(0);
             if (spokenText != null) {
                 sendTextEmail(spokenText);
+                Toast.makeText(HomePageActivity.this, "Mail Sent Successfully ", Toast.LENGTH_SHORT).show();
             }
+
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -227,9 +230,9 @@ safeZoneButton.setOnClickListener(v -> {
             CompletableFuture<Boolean> emailResult = SendSpeechText.sendEmailST(username, password, email, subject,spokenText);
             emailResult.thenAccept(success -> {
                 if (success) {
-                    this.runOnUiThread(() -> Toast.makeText(HomePageActivity.this, "Text Email sent successfully", Toast.LENGTH_SHORT).show());
+                    System.out.println("Text Email sent successfully");
                 } else {
-                    this.runOnUiThread(() -> Toast.makeText(HomePageActivity.this, "Text Email sending failed", Toast.LENGTH_SHORT).show());
+                    System.out.println("Text Email sending failed");
                 }
             }).exceptionally(ex -> {
                         ex.printStackTrace();

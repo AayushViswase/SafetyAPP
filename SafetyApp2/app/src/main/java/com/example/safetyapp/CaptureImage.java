@@ -5,11 +5,9 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,10 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 public class CaptureImage extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -40,6 +34,7 @@ public class CaptureImage extends AppCompatActivity {
         captureButton.setOnClickListener(v -> {
             requestCameraPermission(); // call requestCameraPermission() when the capture button is clicked
         });
+
     }
 
     private void captureImage() {

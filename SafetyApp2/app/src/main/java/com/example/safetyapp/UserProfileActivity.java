@@ -1,6 +1,5 @@
 package com.example.safetyapp;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -77,6 +76,7 @@ public class UserProfileActivity extends AppCompatActivity {
             showUserProfile(firebaseUser);
 
         }
+
     }
 
     private void swipeToReferesh() {

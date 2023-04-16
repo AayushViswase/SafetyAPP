@@ -70,7 +70,6 @@ public class UploadProfilePicActivity extends AppCompatActivity {
 
 
 
-
     }
 
     private void UploadPic() {

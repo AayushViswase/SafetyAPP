@@ -76,6 +76,7 @@ public class UpdateAdditionalDetails extends AppCompatActivity {
             startActivity(intent);
             finish(); //to close Details Activity
         });
+
     }
 
     private void Check(String name, String email, String phone, EditText nameEditText, EditText emailEditText, EditText phoneEditText,String person) {
