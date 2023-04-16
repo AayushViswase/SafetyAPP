@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
@@ -71,8 +72,12 @@ public class HomePageActivity extends AppCompatActivity {
             Button profileButton = findViewById(R.id.button_profile);
             Button safeZoneButton=findViewById(R.id.Safe_Zone);
             safeZoneButton.setOnClickListener(v -> {
-                startActivity(new Intent(HomePageActivity.this,SafeZone.class));
-                finish();
+//                startActivity(new Intent(HomePageActivity.this,SafeZone.class));
+//                finish();
+                Uri uri = Uri.parse("geo:0,0?q=police+station+nearby+me");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+
             });
             // Set onClickListener for instruction button
             instructionButton.setOnClickListener(view -> {
