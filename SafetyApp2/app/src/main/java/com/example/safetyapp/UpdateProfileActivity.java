@@ -67,7 +67,7 @@ private ProgressBar progressBar;
                 startActivity(intent);
                 finish();
 
-        });
+        }   );
         //UPDATE EMAIL
         Button buttonUpdateEmail=findViewById(R.id.button_update_profile);
         buttonUpdateEmail.setOnClickListener(v -> {
@@ -96,7 +96,6 @@ private ProgressBar progressBar;
         //Update Profile
         Button buttonUpdateProfile=findViewById(R.id.button_update_profile);
         buttonUpdateProfile.setOnClickListener(v -> updateProfile(firebaseUser));
-
 
 
     }

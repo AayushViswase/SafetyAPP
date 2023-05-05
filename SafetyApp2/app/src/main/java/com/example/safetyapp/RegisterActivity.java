@@ -146,8 +146,7 @@ private EditText editTextRegisterFullName,editTextRegisterEmail,editTextRegister
 
     });
 
-
-    }
+}
 //Register USer using the credential given
     private void registerUser(String textFullName, String textEmail, String textDoB, String textGender, String textMobile, String textPwd) {
         FirebaseAuth auth=FirebaseAuth.getInstance();

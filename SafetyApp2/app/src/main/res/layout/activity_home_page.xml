@@ -34,6 +34,13 @@
             android:padding="16dp"
             android:text="Safe Zone"
             android:textSize="18sp" />
+        <Button
+            android:id="@+id/Path_Finder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="Path Finder"
+            android:textSize="18sp" />
 
-    </LinearLayout>
+</LinearLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

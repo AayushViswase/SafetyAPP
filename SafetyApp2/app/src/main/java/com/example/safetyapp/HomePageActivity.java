@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -71,12 +72,22 @@ public class HomePageActivity extends AppCompatActivity {
             Button instructionButton = findViewById(R.id.buton_instruction);
             Button profileButton = findViewById(R.id.button_profile);
             Button safeZoneButton=findViewById(R.id.Safe_Zone);
+            Button pathFinder=findViewById(R.id.Path_Finder);
+            pathFinder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(HomePageActivity.this, PathFinder.class);
+                    startActivity(intent);
+
+                }
+            });
             safeZoneButton.setOnClickListener(v -> {
 //                startActivity(new Intent(HomePageActivity.this,SafeZone.class));
 //                finish();
                 Uri uri = Uri.parse("geo:0,0?q=police+station+nearby+me");
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
+
 
             });
             // Set onClickListener for instruction button

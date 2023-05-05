@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/light_gray"
+        >
+        <TextView
+            android:id="@+id/textView_login_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textSize="30dp"
+            android:textColor="@color/white"
+            android:background="@color/purple_700"
+            android:text="SAFE ROUTE"
+            android:textAlignment="center"
+            android:paddingTop="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/border"
+            android:padding="15dp">
+
+            <RelativeLayout
+                android:id="@+id/RL_source"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="35dp"
+                android:background="@drawable/border">
+
+
+
+                <TextView
+                    android:id="@+id/textView_Source"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:paddingRight="10dp"
+                    android:text="Source"
+                    android:textSize="18dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"/>
+
+                <View
+                    android:id="@+id/divider_source"
+                    android:layout_width="350dp"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/textView_Source"
+                    android:layout_marginTop="1dp"
+                    android:background="@android:color/darker_gray" />
+
+                <EditText
+                    android:id="@+id/editText_source"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:autofillHints=""
+                    android:background="@color/light_gray"
+                    android:hint="Enter Source"
+                    android:textAlignment="center"
+                    android:inputType="text"
+                    android:layout_below="@+id/divider_source"
+                    android:minHeight="48dp"
+                    android:padding="6dp"
+
+
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/RL_destination"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/RL_source"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/border">
+
+
+
+                <TextView
+                    android:id="@+id/textView_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:paddingRight="10dp"
+                    android:textSize="18dp"
+                    android:text="Destination"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"/>
+
+                <View
+                    android:id="@+id/divider_destination"
+                    android:layout_width="350dp"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/textView_destination"
+                    android:layout_marginTop="1dp"
+                    android:background="@android:color/darker_gray" />
+
+                <EditText
+                    android:id="@+id/editText_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:autofillHints=""
+                    android:layout_below="@+id/divider_destination"
+                    android:hint="Enter Destination"
+                    android:background="@color/light_gray"
+                    android:textAlignment="center"
+                    android:inputType="text"
+                    android:minHeight="48dp"
+                    android:padding="6dp" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/RL_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/RL_destination"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/border">
+
+
+
+                <TextView
+                    android:id="@+id/textView_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:paddingRight="10dp"
+                    android:textSize="18dp"
+                    android:text="Time"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"/>
+
+                <View
+                    android:id="@+id/divider_time"
+                    android:layout_width="350dp"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/textView_time"
+                    android:layout_marginTop="1dp"
+                    android:background="@android:color/darker_gray" />
+
+                <RadioGroup
+                    android:id="@+id/radio_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/divider_time"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio_AM"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/purple_500"
+                        android:paddingLeft="15dp"
+                        android:text="AM"
+                        android:textColor="@color/black"
+                        android:background="@color/light_gray"
+                        android:textSize="16sp" />
+
+                    <RadioButton
+                        android:id="@+id/radio_PM"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:buttonTint="@color/purple_500"
+                        android:paddingLeft="15dp"
+
+                        android:text="PM"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:background="@color/light_gray"
+                        />
+
+                </RadioGroup>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/RL_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/RL_time"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/border">
+                <TextView
+                    android:id="@+id/textView_Interval"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:paddingRight="10dp"
+                    android:textSize="18dp"
+                    android:text="Interval"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"/>
+                <View
+                    android:id="@+id/divider_interval"
+                    android:layout_width="350dp"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/textView_Interval"
+                    android:layout_marginTop="1dp"
+                    android:background="@android:color/darker_gray" />
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/divider_interval"
+                    android:entries="@array/interval_options"
+                    android:minHeight="48dp"
+                    android:padding="12dp"
+                    />
+            </RelativeLayout>
+            <Button
+                android:id="@+id/button_search"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/RL_spinner"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="23dp"
+                android:text="Search" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>

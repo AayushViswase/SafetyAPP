@@ -39,7 +39,7 @@ public class SendEmailTask {
                     "Please help me! I am in danger.\n" +
                     "My current location is:\n" +
                     "Latitude: " + location.getLatitude() + "\n" +
-                    "Longitude: " + location.getLongitude();
+                    "Longitude: " + location.getLongitude()+"\n"+ "URL: " + "https://www.google.com/maps/search/?api=1&query="+location.getLatitude()+","+location.getLongitude()+"&zoom=15";
             message.setText(messageText);
             Transport.send(message);
 

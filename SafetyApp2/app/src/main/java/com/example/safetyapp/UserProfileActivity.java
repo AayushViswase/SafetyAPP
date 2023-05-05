@@ -76,7 +76,6 @@ public class UserProfileActivity extends AppCompatActivity {
             showUserProfile(firebaseUser);
 
         }
-
     }
 
     private void swipeToReferesh() {

@@ -64,7 +64,6 @@ public class DeleteProfileActivity extends AppCompatActivity {
         }else {
             reAuthenticateUser(firebaseUser);
         }
-
     }
 
     private void reAuthenticateUser(FirebaseUser firebaseUser) {

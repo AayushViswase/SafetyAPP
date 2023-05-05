@@ -6,9 +6,6 @@
     android:layout_height="match_parent"
 
         tools:context=".UpdateAdditionalDetails">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
 
         <LinearLayout
@@ -144,7 +141,6 @@
                 android:paddingBottom="8dp"
                 android:layout_marginTop="18dp"/>
         </LinearLayout>
-    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

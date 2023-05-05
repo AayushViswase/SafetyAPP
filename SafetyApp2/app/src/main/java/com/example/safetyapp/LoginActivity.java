@@ -89,7 +89,6 @@ private static final String TAG="LoginActivity";
                 loginUser(textEmail,textPwd);
             }
         });
-
     }
 
     private void loginUser(String email, String pwd) {

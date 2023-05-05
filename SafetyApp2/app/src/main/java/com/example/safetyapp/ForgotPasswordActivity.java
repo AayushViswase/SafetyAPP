@@ -50,7 +50,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     private void resetPassword(String email) {

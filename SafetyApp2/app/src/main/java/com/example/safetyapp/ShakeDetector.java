@@ -61,8 +61,6 @@ public class ShakeDetector extends AppCompatActivity implements SensorEventListe
                 Toast.makeText(homePageActivity, "Shake:" + shakeCount, Toast.LENGTH_SHORT).show();
                 mailRequest();
                 shakeCount = 0;
-                Toast.makeText(homePageActivity, "Email sent successfully", Toast.LENGTH_SHORT).show();
-
             } else {
                 Toast.makeText(homePageActivity, "Shake:" + shakeCount, Toast.LENGTH_SHORT).show();
                 System.out.println("shakeCount");
@@ -133,7 +131,14 @@ public class ShakeDetector extends AppCompatActivity implements SensorEventListe
             System.out.println("sendmail");
                 CompletableFuture<Boolean> emailResult = SendEmailTask.sendEmail(username, password, recipientEmail, subject, location);
                 emailResult.thenAccept(success -> {
-                            if (!success) {
+                            if (success) {
+                                homePageActivity.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(homePageActivity, "Email sent successfully", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } else {
                                 homePageActivity.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {

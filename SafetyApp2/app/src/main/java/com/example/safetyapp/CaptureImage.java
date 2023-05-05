@@ -16,21 +16,31 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.File;
+import java.util.Objects;
 
 public class CaptureImage extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private ImageView imageView;
-    private File photoFile;
+
+
     private Uri photoUri;
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(CaptureImage.this,HomePageActivity.class));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture_image);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Capture Image");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         imageView = findViewById(R.id.imageView);
+        Button sendImage = findViewById(R.id.Send_image);
+        sendImage.setOnClickListener(v -> sendImageOnMail("aayushviswase10@gmail.com","aayushviswase07@gmail.com"));
         Button captureButton = findViewById(R.id.button_capture);
+        requestCameraPermission();
         captureButton.setOnClickListener(v -> {
             requestCameraPermission(); // call requestCameraPermission() when the capture button is clicked
         });
@@ -48,35 +58,47 @@ public class CaptureImage extends AppCompatActivity {
             // Save the image to the MediaStore
             ContentResolver resolver = getContentResolver();
             photoUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-
+            System.out.println(photoUri);
             // Save the captured image to the MediaStore
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+
         }
     }
+    private void sendImageOnMail(String senderEmail, String recipientEmail) {
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setType("image/jpeg");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "HELP!!!");
+        emailIntent.putExtra(Intent.EXTRA_STREAM, photoUri);
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{recipientEmail});
+        emailIntent.putExtra(Intent.EXTRA_CC, new String[]{senderEmail});
+
+        try {
+            startActivity(emailIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, "No email clients installed.", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             // Show the captured image in the ImageView
+            System.out.println(photoUri);
+
             imageView.setImageURI(photoUri);
         }
     }
 
-//    private File createImageFile() throws IOException {
-//        // Create a unique filename for the captured image
-//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-//        String imageFileName = "JPEG_" + timeStamp + "_";
-//        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-//        File image = File.createTempFile(
-//                imageFileName,  /* prefix */
-//                ".jpg",         /* suffix */
-//                storageDir      /* directory */
-//        );
-//        // Save a file: path for use with ACTION_VIEW intents
-//        return image;
-//    }
+
+
 
     private void requestCameraPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
