@@ -30,10 +30,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="map_description">dsfasdfasdfsdfsdfasdfsdf</string>
     <string-array name="interval_options">
-        <item>00:00-06:00 </item>
-        <item>06:00-12:00 </item>
-        <item>12:00-18:00 </item>
-        <item>18:00-00:00</item>
+        <item>00:00-03:00 </item>
+        <item>03:00-06:00 </item>
+        <item>06:00-09:00 </item>
+        <item>09:00-12:00</item>
+
     </string-array>
 
 </resources>

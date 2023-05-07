@@ -21,9 +21,14 @@
         android:theme="@style/Theme.SafetyApp"
         tools:targetApi="31">
         <activity
-            android:name=".FeedBack"
-            android:label="FeedBack"
+            android:name=".PythonRunner"
             android:exported="false" />
+        <activity
+            android:name=".python"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".FeedBack" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="FeedBack" /> -->
         <activity
             android:name=".PathFinder"
             android:exported="false" />

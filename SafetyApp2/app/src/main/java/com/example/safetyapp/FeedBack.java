@@ -1,13 +1,10 @@
 package com.example.safetyapp;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
@@ -25,13 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class FeedBack extends AppCompatActivity {
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    String userId;
 
-    {
-        assert user != null;
-        userId = user.getUid();
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,10 +58,9 @@ public class FeedBack extends AppCompatActivity {
                 float rating1 = ratingBar1.getRating();
                 float rating2 = ratingBar2.getRating();
                 float rating3 = ratingBar3.getRating();
-                addFeedBackDetails(textSource,textDestination,time,selectedTimeOption,rating1,rating2,rating3);
 
                 // Do something with the integer value
-                //Toast.makeText(FeedBack.this, "Rating1: " + rating1+"Rating1: " + rating2+"Rating3: " + rating3, Toast.LENGTH_SHORT).show();
+                Toast.makeText(FeedBack.this, "Rating1: " + rating2+"Rating1: " + rating2+"Rating3: " + rating3, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -84,13 +74,14 @@ public class FeedBack extends AppCompatActivity {
         addFeedBack addFeedback = new addFeedBack(textSource, textDestination, time, selectedTimeOption, rating1, rating2, rating3);
 
         // Get a reference to the feedback node
-        DatabaseReference feedbackReference = reference.child("feedback");
+        DatabaseReference feedbackReference = reference.child("feedback").child("data");
 
         // Get the current count of feedback entries
         feedbackReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int count = (int) dataSnapshot.getChildrenCount();
+                count -= 1;
 
                 // Add the new feedback entry with the incremented count as its ID
                 feedbackReference.child(String.valueOf(count + 1)).setValue(addFeedback)
@@ -108,22 +99,13 @@ public class FeedBack extends AppCompatActivity {
                         });
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Get the error message
-                String errorMessage = databaseError.getMessage();
 
-                // Log the error message
-                Log.e(TAG, "Database error: " + errorMessage);
+                @Override
+                public void onCancelled (@NonNull DatabaseError error){
 
-                // Show a toast message to the user
-                Toast.makeText(getApplicationContext(), "Error: " + errorMessage, Toast.LENGTH_LONG).show();
-            }
+                }
+
 
         });
     }
-
-
-
-
 }

@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -73,13 +75,10 @@ public class HomePageActivity extends AppCompatActivity {
             Button profileButton = findViewById(R.id.button_profile);
             Button safeZoneButton=findViewById(R.id.Safe_Zone);
             Button pathFinder=findViewById(R.id.Path_Finder);
-            pathFinder.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(HomePageActivity.this, PathFinder.class);
-                    startActivity(intent);
+            pathFinder.setOnClickListener(v -> {
+                Intent intent = new Intent(HomePageActivity.this, PythonRunner.class);
+                startActivity(intent);
 
-                }
             });
             safeZoneButton.setOnClickListener(v -> {
 //                startActivity(new Intent(HomePageActivity.this,SafeZone.class));
@@ -213,6 +212,7 @@ public class HomePageActivity extends AppCompatActivity {
 
         DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference();
         referenceProfile.child("Registered User").child(userID).child("Details").child(i).addListenerForSingleValueEvent(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UpdateDetails readUserDetail = snapshot.getValue(UpdateDetails.class);
@@ -230,6 +230,7 @@ public class HomePageActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void sendMailMsg1(String email, String spokenText){
 
         // Create a LocationManager object to obtain the user's location

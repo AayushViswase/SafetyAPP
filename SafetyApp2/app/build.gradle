@@ -3,6 +3,9 @@ plugins {
     id 'com.google.gms.google-services'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     id 'org.jetbrains.kotlin.android'
+    id 'com.chaquo.python'
+
+
 }
 
 android {
@@ -11,12 +14,33 @@ android {
 
     defaultConfig {
         applicationId "com.example.safetyapp"
-        minSdk 24
+        minSdk 21
         targetSdk 33
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters "armeabi-v7a", "x86_64"
+        }
+        python {
+            version "3.8"
+        }
+        python {
+            buildPython "C:/Python/Python311/python.exe"
+        }
+        python {
+            pip {
+                // A requirement specifier, with or without a version number:
+                install "firebase_admin"
+                install "numpy"
+                install "scikit-learn >=0.19.0"
+
+
+
+
+            }
+        }
     }
 
     buildTypes {
@@ -33,6 +57,11 @@ android {
         exclude 'META-INF/NOTICE.md'
         exclude 'META-INF/LICENSE.md'
     }
+    sourceSets {
+        main {
+            python.srcDir "src/main/python"
+        }
+    }
 }
 
 dependencies {
@@ -40,12 +69,12 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.firebase:firebase-auth:21.2.0'
-    implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
-    implementation 'com.google.firebase:firebase-storage:20.1.0'
+    implementation 'com.google.firebase:firebase-auth:22.0.0'
+    implementation 'com.google.firebase:firebase-database-ktx:20.2.1'
+    implementation 'com.google.firebase:firebase-storage:20.2.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    implementation 'com.google.firebase:firebase-database:20.1.0'
-    implementation 'com.google.firebase:firebase-auth-ktx:21.2.0'
+    implementation 'com.google.firebase:firebase-database:20.2.1'
+    implementation 'com.google.firebase:firebase-auth-ktx:22.0.0'
     implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'], exclude: [])
     implementation files('libs/activation.jar')
     implementation files('libs/additionnal.jar')
@@ -62,14 +91,5 @@ dependencies {
     implementation 'com.google.maps.android:android-maps-utils:2.2.0'
 
 
-
-
-
-
-
-
-//    implementation 'com.sun.mail:javax.mail:1.6.2'
-//    implementation 'com.sun.mail:android-activation:1.6.7'
-//   implementation 'javax.mail:javax.mail-api:1.6.2'
 
 }

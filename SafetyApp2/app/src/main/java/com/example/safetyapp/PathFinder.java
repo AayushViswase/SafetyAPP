@@ -1,19 +1,17 @@
 package com.example.safetyapp;
 
 
-
-
 import android.content.Intent;
-        import android.os.Bundle;
-        import android.text.TextUtils;
-        import android.widget.Button;
-        import android.widget.EditText;
-        import android.widget.RadioButton;
-        import android.widget.RadioGroup;
-        import android.widget.Spinner;
-        import android.widget.Toast;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.Toast;
 
-        import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class PathFinder extends AppCompatActivity {
     private EditText editTextSource, editTextDestination;
@@ -26,6 +24,7 @@ public class PathFinder extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_path_finder);
+
         editTextSource = findViewById(R.id.editText_source);
         editTextDestination = findViewById(R.id.editText_destination);
         radioGroup = findViewById(R.id.radio_group);
@@ -66,7 +65,7 @@ public class PathFinder extends AppCompatActivity {
                 String selectedTimeOption = spinner.getSelectedItem().toString();
                 Toast.makeText(this, textSource+" "+textDestination+" "+time+" "+selectedTimeOption, Toast.LENGTH_SHORT).show();
                 // Create a new Intent object with the current activity and the target activity class
-             Intent intent = new Intent(PathFinder.this, FeedBack.class);
+             Intent intent = new Intent(PathFinder.this, python.class);
 //
 // Add multiple data to the intent using putExtra() method with different keys
                 intent.putExtra("source", textSource);
