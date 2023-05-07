@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_gray"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -16,7 +17,7 @@
             android:id="@+id/textView_login_head"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+
             android:textSize="30dp"
             android:textColor="@color/white"
             android:background="@color/purple_700"
@@ -172,7 +173,7 @@
                         android:paddingLeft="15dp"
                         android:text="AM"
                         android:textColor="@color/black"
-                        android:background="@color/light_gray"
+
                         android:textSize="16sp" />
 
                     <RadioButton
@@ -186,7 +187,7 @@
                         android:text="PM"
                         android:textColor="@color/black"
                         android:textSize="16sp"
-                        android:background="@color/light_gray"
+
                         />
 
                 </RadioGroup>

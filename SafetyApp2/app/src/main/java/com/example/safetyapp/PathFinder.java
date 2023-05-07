@@ -65,16 +65,16 @@ public class PathFinder extends AppCompatActivity {
                 String selectedTimeOption = spinner.getSelectedItem().toString();
                 Toast.makeText(this, textSource+" "+textDestination+" "+time+" "+selectedTimeOption, Toast.LENGTH_SHORT).show();
                 // Create a new Intent object with the current activity and the target activity class
-             Intent intent = new Intent(PathFinder.this, python.class);
-//
-// Add multiple data to the intent using putExtra() method with different keys
+             Intent intent = new Intent(PathFinder.this, PythonRunner.class);
+
                 intent.putExtra("source", textSource);
                 intent.putExtra("destination", textDestination);
                 intent.putExtra("time", time);
                 intent.putExtra("interval", selectedTimeOption);
 
-// Start the target activity using the startActivity() method
+
                 startActivity(intent);
+                finish();
 
 
             }

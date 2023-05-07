@@ -23,39 +23,32 @@ data=ref.get()
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
-# Load JSON data from file
-# with open('newDataset.json', 'r') as f:
-#     data = json.load(f)
-
-# Get user input
-source = "Wakad"
-# input("Enter the source: ")
-destination = "Magarpatta"
-# input("Enter the destination: ")
-time_period = "AM"
-# input("Enter the time period (0 or 1): ")
-time_interval = "06:00-09:00"
-# input("Enter the time interval (1 to 4): ")
-
-# Find matching data in JSON
-matching_data = [d for d in data['data'] if d['Source'] == source and d['Destination'] == destination ]
+# source = "Wakad"
+# destination = "Magarpatta"
+# time_period = "AM"
+# time_interval = "06:00-09:00"
 
 # Apply linear regression to matching data
-if matching_data:
-    X = np.array([[d['Road_Condition'], d['Public_Activities']] for d in matching_data])
-    y_feels_safe = np.array([d['Feel_Safe'] for d in matching_data])
-    reg_feels_safe = LinearRegression().fit(X, y_feels_safe)
-    y_road_condition = np.array([d['Road_Condition'] for d in matching_data])
-    reg_road_condition = LinearRegression().fit(X, y_road_condition)
-    y_public_activities = np.array([d['Public_Activities'] for d in matching_data])
-    reg_public_activities = LinearRegression().fit(X, y_public_activities)
 
-    # Predict values for road_condition, public_activities, and feels_safe
-    test_X = np.array([[3, 2]])  # Replace with test input from user
-    predicted_feels_safe = reg_feels_safe.predict(test_X)
-    predicted_road_condition = reg_road_condition.predict(test_X)
-    predicted_public_activities = reg_public_activities.predict(test_X)
+def run_model(source,destination,time_period,time_interval):
+    matching_data = [d for d in data['data'] if d['Source'] == source and d['Destination'] == destination ]
+    if matching_data:
+        X = np.array([[d['Road_Condition'], d['Public_Activities']] for d in matching_data])
+        y_feels_safe = np.array([d['Feel_Safe'] for d in matching_data])
+        reg_feels_safe = LinearRegression().fit(X, y_feels_safe)
+        y_road_condition = np.array([d['Road_Condition'] for d in matching_data])
+        reg_road_condition = LinearRegression().fit(X, y_road_condition)
+        y_public_activities = np.array([d['Public_Activities'] for d in matching_data])
+        reg_public_activities = LinearRegression().fit(X, y_public_activities)
 
+        # Predict values for road_condition, public_activities, and feels_safe
+        test_X = np.array([[3, 2]])  # Replace with test input from user
+        predicted_feels_safe = reg_feels_safe.predict(test_X)
+        predicted_road_condition = reg_road_condition.predict(test_X)
+        predicted_public_activities = reg_public_activities.predict(test_X)
 
-else:
-    noMatch="No matching data found."
+        return predicted_feels_safe, predicted_road_condition, predicted_public_activities
+
+    else:
+        noMatch="No matching data found."
+        return 0

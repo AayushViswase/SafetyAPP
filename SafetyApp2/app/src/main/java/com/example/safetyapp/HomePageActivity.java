@@ -76,7 +76,7 @@ public class HomePageActivity extends AppCompatActivity {
             Button safeZoneButton=findViewById(R.id.Safe_Zone);
             Button pathFinder=findViewById(R.id.Path_Finder);
             pathFinder.setOnClickListener(v -> {
-                Intent intent = new Intent(HomePageActivity.this, PythonRunner.class);
+                Intent intent = new Intent(HomePageActivity.this, PathFinder.class);
                 startActivity(intent);
 
             });

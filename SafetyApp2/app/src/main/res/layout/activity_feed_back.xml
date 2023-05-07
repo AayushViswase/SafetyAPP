@@ -5,15 +5,23 @@
     android:layout_height="match_parent"
     android:background="@color/light_gray"
     tools:ignore="ExtraText">
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
 
-        android:layout_margin="25dp">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewFeedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="50dp">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="15dp">
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp">
 
             <RelativeLayout
                 android:id="@+id/RL_source"
@@ -24,209 +32,229 @@
                     android:id="@+id/textView_source"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Source :"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
+                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginLeft="16dp"/>
+                    android:text="Source :"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/textView_sourceValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
                     android:layout_toRightOf="@+id/textView_source"
                     android:text="Source"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginLeft="16dp"/>
+                    android:textStyle="bold" />
 
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/RL_destination"
-                android:layout_below="@+id/RL_source"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RL_source">
 
                 <TextView
                     android:id="@+id/textView_destination"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Destiantion :"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
+                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginLeft="16dp"/>
+                    android:text="Destiantion :"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/textView_destinationValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
                     android:layout_toRightOf="@+id/textView_destination"
                     android:text="Destination"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginLeft="16dp"/>
+                    android:textStyle="bold" />
 
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/RL_TimePeriod"
-                android:layout_below="@+id/RL_destination"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RL_destination">
 
                 <TextView
                     android:id="@+id/textView_TimePeriod"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TimePeriod :"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
+                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginLeft="16dp"/>
+                    android:text="TimePeriod :"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/textView_TimePeriodValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
                     android:layout_toRightOf="@+id/textView_TimePeriod"
                     android:text="TimePeriod"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginLeft="16dp"/>
+                    android:textStyle="bold" />
 
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/RL_Interval"
-                android:layout_below="@+id/RL_TimePeriod"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RL_TimePeriod">
 
                 <TextView
                     android:id="@+id/textView_Interval"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Interval :"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
+                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginLeft="16dp"/>
+                    android:text="Interval :"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/textView_IntervalValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
                     android:layout_toRightOf="@+id/textView_Interval"
                     android:text="Interval"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginLeft="16dp"/>
+                    android:textStyle="bold" />
 
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/RL_r1"
-                android:layout_below="@+id/RL_Interval"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RL_Interval">
 
                 <TextView
                     android:id="@+id/rating_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
                     android:text="Road Conditon"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginLeft="16dp"/>
+                    android:textStyle="bold" />
 
                 <RatingBar
                     android:id="@+id/rating_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:numStars="5"
-                    android:stepSize="0.5"
-                    android:rating="0"
                     android:layout_below="@id/rating_label"
                     android:layout_alignLeft="@id/rating_label"
-                    android:layout_marginTop="8dp"/>
+                    android:layout_marginTop="8dp"
+                    android:numStars="5"
+                    android:rating="0"
+                    android:stepSize="0.5" />
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/RL_r2"
-                android:layout_below="@+id/RL_r1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RL_r1">
 
                 <TextView
                     android:id="@+id/rating_label2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
                     android:text="Public Activities"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginLeft="16dp"/>
+                    android:textStyle="bold" />
 
                 <RatingBar
                     android:id="@+id/rating_bar2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:numStars="5"
-                    android:stepSize="0.5"
-                    android:rating="0"
                     android:layout_below="@id/rating_label2"
                     android:layout_alignLeft="@id/rating_label2"
-                    android:layout_marginTop="8dp"/>
+                    android:layout_marginTop="8dp"
+                    android:numStars="5"
+                    android:rating="0"
+                    android:stepSize="0.5" />
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/RL_r3"
-                android:layout_below="@+id/RL_r2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RL_r2">
 
                 <TextView
                     android:id="@+id/rating_label3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
                     android:text="Feel Safe"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginLeft="16dp"/>
+                    android:textStyle="bold" />
 
                 <RatingBar
                     android:id="@+id/rating_bar3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:numStars="5"
-                    android:stepSize="0.5"
-                    android:rating="0"
                     android:layout_below="@id/rating_label3"
                     android:layout_alignLeft="@id/rating_label3"
-                    android:layout_marginTop="8dp"/>
+                    android:layout_marginTop="8dp"
+                    android:numStars="5"
+                    android:rating="0"
+                    android:stepSize="0.5" />
 
             </RelativeLayout>
 
 
             <!-- Rating submit button -->
+
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cardViewFeedback">
     <Button
         android:id="@+id/rating_submit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit Rating"
-        android:layout_below="@+id/RL_r3"
+        android:text="SUBMIT "
+        android:textSize="18dp"
+
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"/>
-
+        android:layout_marginTop="10dp"/>
     </RelativeLayout>
-
-
-    </androidx.cardview.widget.CardView>
 
 
 </RelativeLayout>
