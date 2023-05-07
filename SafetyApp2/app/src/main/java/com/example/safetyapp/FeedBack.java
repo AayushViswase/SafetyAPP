@@ -59,6 +59,7 @@ public class FeedBack extends AppCompatActivity {
                 float rating2 = ratingBar2.getRating();
                 float rating3 = ratingBar3.getRating();
                 addFeedBackDetails(textSource,textDestination,time,selectedTimeOption,rating1,rating2,rating3);
+
                 // Do something with the integer value
                 //Toast.makeText(FeedBack.this, "Rating1: " + rating1 + "Rating1: " + rating2 + "Rating3: " + rating3, Toast.LENGTH_SHORT).show();
             }
@@ -90,6 +91,8 @@ public class FeedBack extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(getApplicationContext(), "Your feedback is greatly appreciated.", Toast.LENGTH_SHORT).show();
+                                    Intent intent1=new Intent(FeedBack.this,HomePageActivity.class);
+                                    startActivity(intent1);
                                 } else {
                                     // Get the error message from task.getException()
                                     String errorMessage = task.getException().getMessage();

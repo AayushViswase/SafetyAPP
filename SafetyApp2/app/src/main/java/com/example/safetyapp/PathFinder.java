@@ -13,6 +13,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.chaquo.python.PyObject;
+import com.chaquo.python.Python;
+import com.chaquo.python.android.AndroidPlatform;
+
 public class PathFinder extends AppCompatActivity {
     private EditText editTextSource, editTextDestination;
     private RadioGroup radioGroup;
@@ -63,14 +67,28 @@ public class PathFinder extends AppCompatActivity {
                 }
                 // Get the selected item from the spinner
                 String selectedTimeOption = spinner.getSelectedItem().toString();
-                Toast.makeText(this, textSource+" "+textDestination+" "+time+" "+selectedTimeOption, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, textSource+" "+textDestination+" "+time+" "+selectedTimeOption, Toast.LENGTH_SHORT).show();
                 // Create a new Intent object with the current activity and the target activity class
+                if (!Python.isStarted()) {
+                    Python.start(new AndroidPlatform(this));
+                }
+                Python py = Python.getInstance();
+                PyObject module = py.getModule("script");
+
+                String source = textSource.toUpperCase();
+                String destination = textDestination.toUpperCase();
+                String time_period = time.toUpperCase();
+                String time_interval = selectedTimeOption.toUpperCase();
+                PyObject runModels = module.get("run_model");
+                PyObject result = runModels.call(source, destination, time_period, time_interval);
+                String a = result.toString();
              Intent intent = new Intent(PathFinder.this, PythonRunner.class);
 
-                intent.putExtra("source", textSource);
-                intent.putExtra("destination", textDestination);
-                intent.putExtra("time", time);
-                intent.putExtra("interval", selectedTimeOption);
+                intent.putExtra("source", source);
+                intent.putExtra("destination", destination);
+                intent.putExtra("time", time_period);
+                intent.putExtra("interval", time_interval);
+                intent.putExtra("a", a);
 
 
                 startActivity(intent);
