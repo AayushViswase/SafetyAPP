@@ -1,6 +1,9 @@
 package com.example.safetyapp;
 
 import android.location.Location;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
@@ -15,6 +18,7 @@ import javax.mail.internet.MimeMessage;
 
 public class SendEmailTask {
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static CompletableFuture<Boolean> sendEmail(String username, String password, String recipientEmail, String subject, Location location) {
         CompletableFuture<Boolean> result = new CompletableFuture<>();
         Properties props = new Properties();

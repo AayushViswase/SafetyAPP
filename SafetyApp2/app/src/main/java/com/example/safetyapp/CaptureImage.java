@@ -14,8 +14,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
 import java.util.Objects;
 
 public class CaptureImage extends AppCompatActivity {
@@ -30,6 +32,7 @@ public class CaptureImage extends AppCompatActivity {
     public void onBackPressed() {
         startActivity(new Intent(CaptureImage.this,HomePageActivity.class));
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,7 @@ public class CaptureImage extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void captureImage() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -59,6 +63,8 @@ public class CaptureImage extends AppCompatActivity {
             ContentResolver resolver = getContentResolver();
             photoUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
             System.out.println(photoUri);
+            File file=new File(String.valueOf(photoUri));
+            System.out.println(file.toPath());
             // Save the captured image to the MediaStore
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
@@ -72,6 +78,7 @@ public class CaptureImage extends AppCompatActivity {
         emailIntent.putExtra(Intent.EXTRA_STREAM, photoUri);
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{recipientEmail});
         emailIntent.putExtra(Intent.EXTRA_CC, new String[]{senderEmail});
+
 
         try {
             startActivity(emailIntent);
@@ -100,6 +107,7 @@ public class CaptureImage extends AppCompatActivity {
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void requestCameraPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -112,6 +120,7 @@ public class CaptureImage extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

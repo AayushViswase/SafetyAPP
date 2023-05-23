@@ -36,7 +36,7 @@ public class UpdateAdditionalDetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_additional_details);
+        setContentView(R.layout.activity_additional_details);
 
         // Get references to all the EditText views in the layout
         nameEditText1 = findViewById(R.id.name_edittext1);

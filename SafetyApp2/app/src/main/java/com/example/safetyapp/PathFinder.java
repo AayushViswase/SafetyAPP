@@ -4,8 +4,10 @@ package com.example.safetyapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -21,6 +23,7 @@ public class PathFinder extends AppCompatActivity {
     private EditText editTextSource, editTextDestination;
     private RadioGroup radioGroup;
     private RadioButton radioButton;
+    private ProgressBar progressBar1;
     private Spinner spinner;
     String time;
 
@@ -34,6 +37,7 @@ public class PathFinder extends AppCompatActivity {
         radioGroup = findViewById(R.id.radio_group);
         radioGroup.clearCheck();
         spinner = findViewById(R.id.spinner);
+        progressBar1=findViewById(R.id.progress_bar1);
 
         Button buttonSearch = findViewById(R.id.button_search);
         buttonSearch.setOnClickListener(v -> {
@@ -69,6 +73,7 @@ public class PathFinder extends AppCompatActivity {
                 String selectedTimeOption = spinner.getSelectedItem().toString();
                 //Toast.makeText(this, textSource+" "+textDestination+" "+time+" "+selectedTimeOption, Toast.LENGTH_SHORT).show();
                 // Create a new Intent object with the current activity and the target activity class
+                progressBar1.setVisibility(View.VISIBLE);
                 if (!Python.isStarted()) {
                     Python.start(new AndroidPlatform(this));
                 }
@@ -82,6 +87,7 @@ public class PathFinder extends AppCompatActivity {
                 PyObject runModels = module.get("run_model");
                 PyObject result = runModels.call(source, destination, time_period, time_interval);
                 String a = result.toString();
+                progressBar1.setVisibility(View.GONE);
              Intent intent = new Intent(PathFinder.this, PythonRunner.class);
 
                 intent.putExtra("source", source);

@@ -10,6 +10,7 @@ import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -106,21 +107,65 @@ public class HomePageActivity extends AppCompatActivity {
             });
 
         }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == VOLUME_DOWN_KEYCODE) {
+//            Intent intent = new Intent(HomePageActivity.this, CaptureImage.class);
+//            startActivity(intent);
+//            finish();
+//            return true;
+//        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+//            startSpeechToText();
+//            return true;
+//
+//
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
+private boolean isVolumeUpKeyPressed = false;
+    private Handler mHandler = new Handler();
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == VOLUME_DOWN_KEYCODE) {
+        if (keyCode == KeyEvent.KEYCODE_POWER) {
+            isVolumeUpKeyPressed = true;
+            mHandler.postDelayed(startIntentRunnable, 5000);
+            //startSpeechToText();
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
             Intent intent = new Intent(HomePageActivity.this, CaptureImage.class);
             startActivity(intent);
             finish();
             return true;
-        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+        }else if(keyCode == KeyEvent.KEYCODE_VOLUME_UP){
             startSpeechToText();
             return true;
-
-
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_POWER) {
+            isVolumeUpKeyPressed = false;
+            mHandler.removeCallbacks(startIntentRunnable);
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    private Runnable startIntentRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (isVolumeUpKeyPressed) {
+                Intent intent = new Intent(HomePageActivity.this, AudioRecord.class);
+                startActivity(intent);
+                finish();
+            }
+        }
+    };
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -155,8 +200,14 @@ public class HomePageActivity extends AppCompatActivity {
         AlertDialog.Builder builder=new AlertDialog.Builder(HomePageActivity.this);
         builder.setTitle("App Instructions");
         //msg updated BY ANUPAM
-        builder.setMessage("To send message please shake your handset thrice.." +
-                "To start recording press Volume Down Button ONCE");
+        builder.setMessage("To send message please shake your handset thrice..\n" +
+                        "\n"+
+                        "To start recording press Volume Down Button ONCE\n"+
+                        "\n"+
+                        "To capture image press Volume Up Button ONCE\n"+
+                        "\n"+
+                        "To find nearet police station and your current location press Safe Zone Button\n"+"\n"+
+                "To know about the route before travel press Path Finder Button"+"\n");
 
 
 
