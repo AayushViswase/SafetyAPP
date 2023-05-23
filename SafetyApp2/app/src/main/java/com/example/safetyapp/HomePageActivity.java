@@ -287,7 +287,7 @@ private boolean isVolumeUpKeyPressed = false;
         // Create a LocationManager object to obtain the user's location
 
         // Check if the user has granted permission to access their location
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if ((ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) &&(ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)) {
             // Request the user's location
 
             // Send an email with the user's location
@@ -308,7 +308,10 @@ private boolean isVolumeUpKeyPressed = false;
                     });
         } else {
             // Request permission to access the user's location
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.SEND_SMS};
+            ActivityCompat.requestPermissions(this, permissions, 1);
+
+
         }
     }
 

@@ -11,10 +11,12 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -33,11 +35,10 @@ public class ShakeDetector extends AppCompatActivity implements SensorEventListe
     private final HomePageActivity homePageActivity;
     protected SensorManager sensorManager;
 
-
     private String name, email, mobile;
 
     private int shakeCount = 0;
-    private LocationManager locationManager;
+    private final LocationManager locationManager;
 
     public ShakeDetector(HomePageActivity homePageActivity) {
         this.homePageActivity = homePageActivity;
@@ -94,6 +95,7 @@ public class ShakeDetector extends AppCompatActivity implements SensorEventListe
 
         DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference();
         referenceProfile.child("Registered User").child(userID).child("Details").child(i).addListenerForSingleValueEvent(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UpdateDetails readUserDetail = snapshot.getValue(UpdateDetails.class);
@@ -102,8 +104,10 @@ public class ShakeDetector extends AppCompatActivity implements SensorEventListe
                     name = readUserDetail.name;
                     email = readUserDetail.email;
                     mobile = readUserDetail.mobile;
+
                     System.out.println(name + " " + email + " " + mobile + " " + firebaseUser.getEmail());
-                    new Thread(() -> sendMailMsg(email)).start();
+                    new Thread(() -> sendMailMsg(email,mobile)).start();
+
                 }
             }
 
@@ -115,36 +119,27 @@ public class ShakeDetector extends AppCompatActivity implements SensorEventListe
     }
 
 
-    private void sendMailMsg(String email){
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void sendMailMsg(String email, String mobile){
 
         // Create a LocationManager object to obtain the user's location
         LocationManager locationManager = (LocationManager) homePageActivity.getSystemService(Context.LOCATION_SERVICE);
         // Check if the user has granted permission to access their location
-        if (ActivityCompat.checkSelfPermission(homePageActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if ((ActivityCompat.checkSelfPermission(homePageActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) && (ActivityCompat.checkSelfPermission(homePageActivity, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)) {
             // Request the user's location
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             // Send an email with the user's location
             String username = "aayushviswase008@gmail.com";
             String password = "ctiibcsgzchbbpeu";
-            String recipientEmail = email.toString();
             String subject = "Emergency Alert";
             System.out.println("sendmail");
-                CompletableFuture<Boolean> emailResult = SendEmailTask.sendEmail(username, password, recipientEmail, subject, location);
+                CompletableFuture<Boolean> emailResult = SendEmailTask.sendEmail(username, password, email, subject, location,mobile);
                 emailResult.thenAccept(success -> {
                             if (success) {
-                                homePageActivity.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(homePageActivity, "Email sent successfully", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                                homePageActivity.runOnUiThread(() -> Toast.makeText(homePageActivity, "Email ans msg sent successfully", Toast.LENGTH_SHORT).show());
                             } else {
-                                homePageActivity.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(homePageActivity, "Email sending failed", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                                homePageActivity.runOnUiThread(() -> Toast.makeText(homePageActivity, "Email ans msg sending failed", Toast.LENGTH_SHORT).show());
                             }
                         })
                         .exceptionally(ex -> {
@@ -153,7 +148,11 @@ public class ShakeDetector extends AppCompatActivity implements SensorEventListe
                         });
             } else {
             // Request permission to access the user's location
-            ActivityCompat.requestPermissions(homePageActivity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+//            ActivityCompat.requestPermissions(homePageActivity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+//            ActivityCompat.requestPermissions(homePageActivity, new String[]{Manifest.permission.SEND_SMS}, 1);
+            String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.SEND_SMS};
+            ActivityCompat.requestPermissions(homePageActivity, permissions, 1);
+
         }
         }
     }
