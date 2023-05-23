@@ -1,7 +1,7 @@
 package com.example.safetyapp;
 
-
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -23,9 +23,10 @@ public class PathFinder extends AppCompatActivity {
     private EditText editTextSource, editTextDestination;
     private RadioGroup radioGroup;
     private RadioButton radioButton;
-    private ProgressBar progressBar1;
     private Spinner spinner;
+    private ProgressBar progressBar; // Added progress bar reference
     String time;
+    Button buttonSearch,buttonRouteFind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +38,23 @@ public class PathFinder extends AppCompatActivity {
         radioGroup = findViewById(R.id.radio_group);
         radioGroup.clearCheck();
         spinner = findViewById(R.id.spinner);
-        progressBar1=findViewById(R.id.progress_bar1);
+        progressBar = findViewById(R.id.progress_bar1); // Initializing progress bar
 
-        Button buttonSearch = findViewById(R.id.button_search);
+       buttonSearch = findViewById(R.id.button_search);
+        buttonRouteFind=findViewById(R.id.routefinder);
+        buttonRouteFind.setOnClickListener(v -> {
+            String textSource = editTextSource.getText().toString().toUpperCase();
+            String textDestination = editTextDestination.getText().toString().toUpperCase();
+            Uri uri = Uri.parse("https://www.google.com/maps/dir/" + textSource + "/" + textDestination);
+            Intent intent12 = new Intent(Intent.ACTION_VIEW, uri);
+            intent12.setPackage("com.google.android.apps.maps");
+            intent12.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent12);
+
+        });
         buttonSearch.setOnClickListener(v -> {
-            String textSource = editTextSource.getText().toString();
-            String textDestination = editTextDestination.getText().toString();
+            String textSource = editTextSource.getText().toString().toUpperCase();
+            String textDestination = editTextDestination.getText().toString().toUpperCase();
 
             if (TextUtils.isEmpty(textSource)) {
                 Toast.makeText(PathFinder.this, "Please enter Source", Toast.LENGTH_LONG).show();
@@ -54,7 +66,6 @@ public class PathFinder extends AppCompatActivity {
                 editTextDestination.requestFocus();
             } else if (radioGroup.getCheckedRadioButtonId() == -1) {
                 // No radio button is selected
-
                 Toast.makeText(PathFinder.this, "Please select AM or PM", Toast.LENGTH_LONG).show();
                 radioGroup.requestFocus();
             } else {
@@ -71,37 +82,53 @@ public class PathFinder extends AppCompatActivity {
                 }
                 // Get the selected item from the spinner
                 String selectedTimeOption = spinner.getSelectedItem().toString();
-                //Toast.makeText(this, textSource+" "+textDestination+" "+time+" "+selectedTimeOption, Toast.LENGTH_SHORT).show();
-                // Create a new Intent object with the current activity and the target activity class
-                progressBar1.setVisibility(View.VISIBLE);
-                if (!Python.isStarted()) {
-                    Python.start(new AndroidPlatform(this));
-                }
-                Python py = Python.getInstance();
-                PyObject module = py.getModule("script");
 
-                String source = textSource.toUpperCase();
-                String destination = textDestination.toUpperCase();
-                String time_period = time.toUpperCase();
-                String time_interval = selectedTimeOption.toUpperCase();
-                PyObject runModels = module.get("run_model");
-                PyObject result = runModels.call(source, destination, time_period, time_interval);
-                String a = result.toString();
-                progressBar1.setVisibility(View.GONE);
-             Intent intent = new Intent(PathFinder.this, PythonRunner.class);
+                // Show progress bar
+                progressBar.setVisibility(View.VISIBLE);
 
-                intent.putExtra("source", source);
-                intent.putExtra("destination", destination);
-                intent.putExtra("time", time_period);
-                intent.putExtra("interval", time_interval);
-                intent.putExtra("a", a);
+                // Disable button to prevent multiple clicks
+                buttonSearch.setEnabled(false);
 
-
-                startActivity(intent);
-                finish();
-
+                // Perform the task in the background
+                performBackgroundTask(textSource, textDestination, selectedTimeOption);
 
             }
         });
+    }
+
+    private void performBackgroundTask(String source, String destination, String selectedTimeOption) {
+        // Perform your background task here (e.g., calling the Python code)
+
+        // Example: Simulating a delay of 2 seconds using a Handler
+
+            // Create a new Intent object with the current activity and the target activity class
+            if (!Python.isStarted()) {
+                Python.start(new AndroidPlatform(this));
+            }
+            Python py = Python.getInstance();
+            PyObject module = py.getModule("script");
+
+
+            String time_period = time.toUpperCase();
+            String time_interval = selectedTimeOption.toUpperCase();
+            PyObject runModels = module.get("run_model");
+            PyObject result = runModels.call(source, destination, time_period, time_interval);
+            String a = result.toString();
+            Intent intent = new Intent(PathFinder.this, PythonRunner.class);
+
+            intent.putExtra("source", source);
+            intent.putExtra("destination", destination);
+            intent.putExtra("time", time_period);
+            intent.putExtra("interval", time_interval);
+            intent.putExtra("a", a);
+
+            startActivity(intent);
+            finish();
+
+        // Hide progress bar
+        progressBar.setVisibility(View.GONE);
+
+        // Re-enable the button
+        buttonSearch.setEnabled(true);
     }
 }

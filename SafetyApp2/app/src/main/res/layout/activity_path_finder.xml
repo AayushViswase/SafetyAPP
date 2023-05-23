@@ -7,24 +7,16 @@
     android:background="@color/light_gray"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/light_gray">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewFeedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="25dp">
 
-        <TextView
-            android:id="@+id/textView_login_head"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
 
-            android:textSize="30dp"
-            android:textColor="@color/white"
-            android:background="@color/purple_700"
-            android:text="SAFE ROUTE"
-            android:textAlignment="center"
-            android:paddingTop="20dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -37,13 +29,14 @@
             android:padding="15dp">
             <ProgressBar
                 android:id="@+id/progress_bar1"
-                style="?android:attr/progressBarStyleSmall"
+                style="?android:attr/progressBarStyleLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="110dp"
-                android:layout_centerHorizontal="true"
-                android:elevation="10dp"
-                android:visibility="gone" />
+                android:layout_centerInParent="true"
+                android:layout_marginTop="16dp"
+                android:visibility="invisible" />
+
+
 
             <RelativeLayout
                 android:id="@+id/RL_source"
@@ -52,6 +45,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="35dp"
                 android:background="@drawable/border">
+
 
 
 
@@ -245,8 +239,19 @@
                 android:layout_marginStart="70dp"
                 android:layout_marginTop="23dp"
                 android:text="Search" />
+            <Button
+                android:id="@+id/routefinder"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/button_search"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="23dp"
+                android:text="Find Route" />
+
+
 
         </RelativeLayout>
 
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </ScrollView>

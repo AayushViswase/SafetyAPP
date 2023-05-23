@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class FeedBack extends AppCompatActivity {
+
+    private ProgressBar progressBar;
     public void onBackPressed() {
         Toast.makeText(this, "Please Submit Feedback", Toast.LENGTH_SHORT).show();
     }
@@ -33,6 +36,7 @@ public class FeedBack extends AppCompatActivity {
         RatingBar ratingBar2 = findViewById(R.id.rating_bar2);
         RatingBar ratingBar3 = findViewById(R.id.rating_bar3);
         Button submitButton = findViewById(R.id.rating_submit_button);
+        progressBar = findViewById(R.id.progress_bar2);
         // Retrieve the Intent that started this activity
         Intent intent = getIntent();
 
@@ -52,17 +56,15 @@ public class FeedBack extends AppCompatActivity {
         textView_IntervalValue.setText(selectedTimeOption);
 
 
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                float rating1 = ratingBar1.getRating();
-                float rating2 = ratingBar2.getRating();
-                float rating3 = ratingBar3.getRating();
-                addFeedBackDetails(textSource,textDestination,time,selectedTimeOption,rating1,rating2,rating3);
+        submitButton.setOnClickListener(v -> {
+            progressBar.setVisibility(View.VISIBLE);
+            float rating1 = ratingBar1.getRating();
+            float rating2 = ratingBar2.getRating();
+            float rating3 = ratingBar3.getRating();
+            addFeedBackDetails(textSource,textDestination,time,selectedTimeOption,rating1,rating2,rating3);
 
-                // Do something with the integer value
-                //Toast.makeText(FeedBack.this, "Rating1: " + rating1 + "Rating1: " + rating2 + "Rating3: " + rating3, Toast.LENGTH_SHORT).show();
-            }
+            // Do something with the integer value
+            //Toast.makeText(FeedBack.this, "Rating1: " + rating1 + "Rating1: " + rating2 + "Rating3: " + rating3, Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -90,6 +92,7 @@ public class FeedBack extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
+                                    progressBar.setVisibility(View.GONE);
                                     Toast.makeText(getApplicationContext(), "Your feedback is greatly appreciated.", Toast.LENGTH_SHORT).show();
                                     Intent intent1=new Intent(FeedBack.this,HomePageActivity.class);
                                     startActivity(intent1);

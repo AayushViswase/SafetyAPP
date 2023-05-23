@@ -53,19 +53,6 @@ public class PythonRunner extends AppCompatActivity {
         time = intent.getStringExtra("time").toUpperCase();
         selectedTimeOption = intent.getStringExtra("interval");
         a=intent.getStringExtra("a");
-//        if (!Python.isStarted()) {
-//            Python.start(new AndroidPlatform(this));
-//        }
-//        Python py = Python.getInstance();
-//        PyObject module = py.getModule("script");
-//
-//        String source = textSource;
-//        String destination = textDestination;
-//        String time_period = time;
-//        String time_interval = selectedTimeOption;
-//        PyObject runModels = module.get("run_model");
-//        PyObject result = runModels.call(source, destination, time_period, time_interval);
-//        String a = result.toString();
         if(!a.equals("0")) {
 
             Pattern pattern = Pattern.compile("\\[(.*?)\\]");
@@ -113,31 +100,20 @@ public class PythonRunner extends AppCompatActivity {
             TextView textView_rating_label3Value = findViewById(R.id.textView_rating_label3Value);
             textView_rating_label3Value.setText(Float.toString(val333));
 
-// Print the extracted values
-            System.out.println("777777777777777777777777777777777"+a);
-            System.out.println(val1); // Output: 2.61365652
-            System.out.println(val2); // Output: 3.
-            System.out.println(val3); // Output: 2.
 
-
-            show_route.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Uri uri = Uri.parse("https://www.google.com/maps/dir/" + textSource + "/" + textDestination);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    intent.setPackage("com.google.android.apps.maps");
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-
-                }
-
-
+            show_route.setOnClickListener(view -> {
+                Uri uri = Uri.parse("https://www.google.com/maps/dir/" + textSource + "/" + textDestination);
+                Intent intent12 = new Intent(Intent.ACTION_VIEW, uri);
+                intent12.setPackage("com.google.android.apps.maps");
+                intent12.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent12);
 
             });
 
 
             }else{
             Toast.makeText(this, "No Data Available", Toast.LENGTH_SHORT).show();
+
             Intent intent1=new Intent(PythonRunner.this,FeedBack.class);
             // Create a new Intent object with the current activity and the target activity class
 

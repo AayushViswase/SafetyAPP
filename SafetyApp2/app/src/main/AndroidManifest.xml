@@ -34,7 +34,8 @@
             android:label="FeedBack" />
         <activity
             android:name=".PathFinder"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Safe Route" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
